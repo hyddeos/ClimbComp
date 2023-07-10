@@ -20,10 +20,10 @@ defmodule ClimbcompWeb.Router do
     get "/", PageController, :home
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", ClimbcompWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", ClimbcompWeb do
+    pipe_through :api
+    post "/login", AuthenticationController, :login
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:climbcomp, :dev_routes) do
