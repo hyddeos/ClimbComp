@@ -14,7 +14,7 @@ function Home() {
         REGISTER
       </a>
       <h1 className="">This is Home</h1>
-      <Timer />
+      <Timer timelimit="24000" />
     </div>
   );
 }
