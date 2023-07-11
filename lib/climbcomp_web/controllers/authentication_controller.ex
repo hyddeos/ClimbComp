@@ -1,5 +1,5 @@
 defmodule ClimbcompWeb.AuthenticationController do
-  use Climbcomp, :controller
+  use ClimbcompWeb, :controller
 
   def login(conn, %{"username" => username, "password" => password}) do
     # Authenticate the user using the provided username and password

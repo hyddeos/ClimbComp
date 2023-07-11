@@ -2,9 +2,14 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    fontFamily: {
+      header: ["Sigmar"],
+      hand: ['"Nothing You Could Do"'],
+      body: ["Karla"],
+    },
     colors: {
-      light: "fbfcfd",
-      error: "e33535",
+      light: "#fbfcfd",
+      error: "#e33535",
       succes: "#2ad555",
       daysky: {
         50: "#eefcfd",

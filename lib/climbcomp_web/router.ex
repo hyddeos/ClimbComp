@@ -10,8 +10,17 @@ defmodule ClimbcompWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  defp api_pipeline(conn, _) do
+    conn
+    |> put_resp_header("content-type", "application/json")
+    |> put_resp_header("access-control-allow-origin", "*")
+    |> put_resp_header("access-control-allow-headers", "authorization")
+    |> put_resp_header("access-control-allow-methods", "GET, POST, PUT, DELETE")
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
+    plug :api_pipeline
   end
 
   scope "/", ClimbcompWeb do
@@ -23,6 +32,7 @@ defmodule ClimbcompWeb.Router do
   scope "/api", ClimbcompWeb do
     pipe_through :api
     post "/login", AuthenticationController, :login
+    post "/register", RegistrationController, :create
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
