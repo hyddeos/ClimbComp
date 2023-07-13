@@ -25,8 +25,8 @@ function Timer(props) {
   };
 
   const reset = () => {
-    if (resetCounter == 5) {
-      setTime(0);
+    if (resetCounter === 5) {
+      setTime(props.timelimit);
       setTimeMessage("");
       setResetCounter(0);
     } else {

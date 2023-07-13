@@ -1,4 +1,5 @@
 import React from "react";
+
 import { API_URL } from "../constants";
 
 function Login(props) {
@@ -9,23 +10,22 @@ function Login(props) {
     event.preventDefault();
 
     const userData = {
-      email,
-      password,
+      user: { email, password },
     };
 
     try {
-      const response = await fetch(`${API_URL}/api/login`, {
+      const response = await fetch(`${API_URL}/api/users/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
       });
 
       if (response.ok) {
-        // Registration successful, handle accordingly
+        console.log("--login succesful-- ");
+        const data = await response.json();
+        console.log("DATA: ", data);
       } else {
-        // Registration failed, handle accordingly
+        console.log("--login failed--");
       }
     } catch (error) {
       console.error("Error", error);
@@ -53,7 +53,7 @@ function Login(props) {
           <input
             className="rounded-lg block m-auto py-1 px-2 w-3/4"
             placeholder="Your email"
-            type="email"
+            type="text"
             id="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}

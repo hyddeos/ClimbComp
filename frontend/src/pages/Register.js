@@ -2,16 +2,14 @@ import React from "react";
 import { API_URL } from "../constants";
 
 function Register() {
-  const [name, setName] = React.useState("");
-  const [email, setEmail] = React.useState("");
+  const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const userData = {
-      name,
-      email,
+      username,
       password,
     };
 
@@ -43,21 +41,12 @@ function Register() {
       <h1 className="">This is Register</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="name">Name:</label>
+          <label htmlFor="username">Username:</label>
           <input
             type="text"
-            id="name"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            id="username"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
           />
         </div>
         <div>

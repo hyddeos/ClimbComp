@@ -2,10 +2,10 @@ import Config
 
 # Configure your database
 config :climbcomp, Climbcomp.Repo,
-  username: System.get_env("DB_USERNAME"),
-  password: System.get_env("DB_PASSWORD"),
-  hostname: System.get_env("DB_HOSTNAME"),
-  database: System.get_env("DB_DATABASE"),
+  username: "postgres",
+  password: "password",
+  hostname: "localhost",
+  database: "climbcompdb",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
@@ -23,7 +23,7 @@ config :climbcomp, ClimbcompWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: System.get_env("SECRECT_BASE_KEY"),
+  secret_key_base: "B4CZC8YX+BUueEOVEAzji+6OSh83QKOWvG1KxNGYE/V1b9Ft7QxKgCQOJKyaSCLd",
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
@@ -77,6 +77,3 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
-
-## Self-added
-import_config "dev.secret.exs"

@@ -1,4 +1,5 @@
 import React from "react";
+import Cookie from "js-cookie";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";

@@ -3,7 +3,7 @@ import PageTitle from "../components/PageTitle";
 import ListCompetitions from "../components/ListCompetitions";
 import Login from "../components/Login";
 
-const loggedin = false;
+const loggedin = "";
 
 function HostMode() {
   return (
