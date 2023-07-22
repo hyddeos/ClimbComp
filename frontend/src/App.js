@@ -11,8 +11,7 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="hostmode" element={<HostMode />} />
+          <Route exact path="/" element={<HostMode />} />
           <Route exact path="register" element={<Register />} />
         </Routes>
       </BrowserRouter>
