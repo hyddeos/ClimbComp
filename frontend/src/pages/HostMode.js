@@ -1,6 +1,7 @@
 import React from "react";
 import PageTitle from "../components/PageTitle";
 import Competitions from "../components/Competitions";
+import Challenges from "../components/Challenges";
 import Login from "../components/Login";
 
 function HostMode() {
@@ -18,7 +19,7 @@ function HostMode() {
               New Challange
             </button>
           </div>
-          <Competitions />
+          <Challenges />
         </>
       ) : (
         <Login setUserLoggedIn={setUserLoggedIn} />

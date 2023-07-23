@@ -1,24 +1,24 @@
 import React from "react";
-import CreateNewCompetition from "./CreateNewChallenge";
+import CreateNewChallenge from "./CreateNewChallenge";
 import ListCompetitions from "./ListCompetitions";
 
-function Competitions(props) {
+function Challenges(props) {
   const [creatingCompetiton, setCreatingCompetiton] = React.useState(false);
 
   function ShowCreateCompetiton() {
     if (!creatingCompetiton) {
       setCreatingCompetiton(true);
-      console.log("ture");
+      console.log("true");
     } else {
       setCreatingCompetiton(false);
-      console.log("flase");
+      console.log("false");
     }
   }
   return (
     <div className="bg-nightsky-950 p-6 mt-4">
       <div className="flex justify-between">
         <h3 className="text-left font-body font-extrabold text-xl text-light">
-          {creatingCompetiton ? "Creating New Competition" : "Competitions"}
+          {creatingCompetiton ? "Creating Challenge" : "Challenges"}
         </h3>
         <button
           onClick={() => ShowCreateCompetiton()}
@@ -27,9 +27,9 @@ function Competitions(props) {
           {creatingCompetiton ? "Close" : "Add New"}
         </button>
       </div>
-      {creatingCompetiton ? <CreateNewCompetition /> : <ListCompetitions />}
+      {creatingCompetiton ? <CreateNewChallenge /> : <ListCompetitions />}
     </div>
   );
 }
 
-export default Competitions;
+export default Challenges;
