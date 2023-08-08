@@ -25,6 +25,7 @@ function Login(props) {
         const data = await response.json();
         if (data.status === "succes") {
           props.setUserLoggedIn(true);
+          console.log("data", data);
         }
       } else {
         console.log("--login failed--");

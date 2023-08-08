@@ -6,12 +6,19 @@ import Login from "../components/Login";
 
 function HostMode() {
   // CHANGE userLoggedIn to token later ----------
-  const [userLoggedIn, setUserLoggedIn] = React.useState(true);
+  const [userLoggedIn, setUserLoggedIn] = React.useState(false);
   // CHANGE userLoggedIn to token later ----------
+  function Logout() {
+    console.log("logging user out");
+    setUserLoggedIn(false);
+  }
 
   return (
     <>
       <PageTitle title="Host Mode" info="Create and Update" />
+      <button className="bg-light" onClick={() => Logout()}>
+        log out
+      </button>
       {userLoggedIn ? (
         <>
           <div className="flex justify-evenly">

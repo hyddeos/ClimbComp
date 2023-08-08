@@ -2,28 +2,29 @@ import React from "react";
 import { API_URL } from "../constants";
 
 function Register() {
-  const [username, setUsername] = React.useState("");
+  const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const userData = {
-      username,
+      email,
       password,
     };
 
     try {
-      const response = await fetch(`${API_URL}/api/register`, {
+      const response = await fetch(`${API_URL}/api/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(userData),
+        body: JSON.stringify({ user: userData }),
       });
 
       if (response.ok) {
         // Registration successful, handle accordingly
+        console("Succes");
       } else {
         // Registration failed, handle accordingly
       }
@@ -41,12 +42,12 @@ function Register() {
       <h1 className="">This is Register</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="email">Mail:</label>
           <input
             type="text"
-            id="username"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
+            id="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </div>
         <div>
