@@ -1,19 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CreateNewChallenge from "./CreateNewChallenge";
-import ListCompetitions from "./ListCompetitions";
+import ListChallenge from "./ListChallenge";
 
 function Challenges(props) {
-  const [creatingCompetiton, setCreatingCompetiton] = React.useState(false);
+  const [creatingCompetiton, setCreatingCompetiton] = useState(false);
 
   function ShowCreateCompetiton() {
     if (!creatingCompetiton) {
       setCreatingCompetiton(true);
-      console.log("true");
     } else {
       setCreatingCompetiton(false);
-      console.log("false");
     }
   }
+
   return (
     <div className="bg-nightsky-950 p-6 mt-4">
       <div className="flex justify-between">
@@ -27,7 +26,7 @@ function Challenges(props) {
           {creatingCompetiton ? "Close" : "Add New"}
         </button>
       </div>
-      {creatingCompetiton ? <CreateNewChallenge /> : <ListCompetitions />}
+      {creatingCompetiton ? <CreateNewChallenge /> : <ListChallenge />}
     </div>
   );
 }

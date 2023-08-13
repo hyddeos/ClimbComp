@@ -1,5 +1,5 @@
 import React from "react";
-import CreateNewCompetition from "./CreateNewChallenge";
+import CreateNewCompetition from "./CreateNewCompetition";
 import ListCompetitions from "./ListCompetitions";
 
 function Competitions(props) {
@@ -24,7 +24,7 @@ function Competitions(props) {
           onClick={() => ShowCreateCompetiton()}
           className="bg-acc-600 hover:bg-acc-400 text-light font-body font-bold w-24 h-6 rounded-lg"
         >
-          {creatingCompetiton ? "Close" : "Add New"}
+          {creatingCompetiton ? "Close" : "Start New"}
         </button>
       </div>
       {creatingCompetiton ? <CreateNewCompetition /> : <ListCompetitions />}

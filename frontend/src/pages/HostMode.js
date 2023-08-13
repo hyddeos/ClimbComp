@@ -26,6 +26,7 @@ function HostMode() {
               New Challange
             </button>
           </div>
+          <Competitions />
           <Challenges />
         </>
       ) : (

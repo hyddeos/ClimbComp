@@ -42,6 +42,8 @@ defmodule ClimbcompWeb.Router do
     post "/users/login", UserSessionController, :create
     post "/challenge", ChallengeController, :create
     get "/challenge", ChallengeController, :index
+    post "/competition", CompetitionController, :create
+    get "/competition", CompetitionController, :index
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

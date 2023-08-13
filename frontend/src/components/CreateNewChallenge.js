@@ -1,4 +1,5 @@
 import React from "react";
+import { API_URL } from "../constants";
 
 function CreateNewChallenge() {
   const [challengeName, setChallengeName] = React.useState("");
@@ -8,9 +9,9 @@ function CreateNewChallenge() {
     type: "boulder", // Default type is 'boulder', other sportclimb
     grade: "6a",
     position: "",
-    timeLimit: 240, // Default is 4 min,
-    zonePoints: 3,
-    topPoints: 9,
+    timelimit: 240, // Default is 4 min,
+    zonepoints: 3,
+    toppoints: 9,
   });
 
   const addProblem = (e) => {
@@ -23,36 +24,60 @@ function CreateNewChallenge() {
       type: "boulder",
       grade: "6a",
       position: "",
-      timeLimit: 240,
-      zonePoints: 3,
-      topPoints: 6,
+      timelimit: 240,
+      zonepoints: 3,
+      toppoints: 6,
     });
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "type" && value === "sport") {
-      // If the type is set to "sportclimb", hide zonePoints and set its value to 0
+      // If the type is set to "sportclimb", hide zonepoints and set its value to 0
       setNewProblem({
         ...newProblem,
         [name]: value,
-        zonePoints: 0,
+        zonepoints: 0,
       });
     } else {
-      // If the type is set to "boulder", show zonePoints and set its value back to 3
+      // If the type is set to "boulder", show zonepoints and set its value back to 3
+      const intValue =
+        name === "toppoints" || "zonepoints" ? parseInt(value, 10) : value;
       setNewProblem({
         ...newProblem,
-        [name]: value,
+        [name]: intValue,
       });
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
     console.log("submitting");
-  };
+    event.preventDefault();
 
-  console.log("problems:", problems);
+    let name = challengeName;
+
+    const challengeData = {
+      name,
+      problems,
+    };
+
+    try {
+      const response = await fetch(`${API_URL}/api/challenge`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ challenge: challengeData }),
+      });
+
+      if (response.ok) {
+        console("Succes", response);
+      } else {
+      }
+    } catch (error) {
+      console.error("Error", error);
+    }
+  };
 
   return (
     <div>
@@ -138,8 +163,8 @@ function CreateNewChallenge() {
               className="rounded-lg text-nightsky-950 p-1 w-2/3"
               placeholder="Points for getting the top"
               type="number"
-              name="topPoints"
-              value={newProblem.topPoints}
+              name="toppoints"
+              value={newProblem.toppoints}
               onChange={handleInputChange}
               required
             />
@@ -150,8 +175,8 @@ function CreateNewChallenge() {
               className="rounded-lg text-nightsky-950 p-1 w-2/3"
               placeholder="Points for getting the top"
               type="number"
-              name="zonePoints"
-              value={newProblem.zonePoints}
+              name="zonepoints"
+              value={newProblem.zonepoints}
               onChange={handleInputChange}
               required
             />
@@ -162,8 +187,8 @@ function CreateNewChallenge() {
               className="rounded-lg text-nightsky-950 p-1 w-2/3"
               placeholder="Time limit for problem"
               type="number"
-              name="timeLimit"
-              value={newProblem.timeLimit}
+              name="timelimit"
+              value={newProblem.timelimit}
               onChange={handleInputChange}
               required
             />

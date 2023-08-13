@@ -13,6 +13,8 @@ defmodule ClimbcompWeb.ChallengeController do
   end
 
   def create(conn, %{"challenge" => challenge_params}) do
+    IO.inspect(challenge_params, label: "INSPECT")
+
     case Challenges.create_challenge(challenge_params) do
       {:ok, %Challenge{} = challenge} ->
         inserted_challenge_with_problems = Repo.preload(challenge, :problems)
