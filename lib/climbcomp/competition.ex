@@ -4,12 +4,12 @@ defmodule Climbcomp.Competition do
 
   schema "competition" do
     field :name, :string
-    has_one :challenge, Climbcomp.Challenge
+    belongs_to :challenge, Climbcomp.Challenge
     field :competitors, {:array, :string}
     has_many :result, Climbcomp.Result
   end
 
-  @required_fields ~w(name challenge competitors)a
+  @required_fields ~w(name challenge_id competitors)a
 
   def changeset(competition, attrs) do
     competition

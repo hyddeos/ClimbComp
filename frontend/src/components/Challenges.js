@@ -26,7 +26,11 @@ function Challenges(props) {
           {creatingCompetiton ? "Close" : "Add New"}
         </button>
       </div>
-      {creatingCompetiton ? <CreateNewChallenge /> : <ListChallenge />}
+      {creatingCompetiton ? (
+        <CreateNewChallenge />
+      ) : (
+        <ListChallenge challenges={props.challenges} />
+      )}
     </div>
   );
 }

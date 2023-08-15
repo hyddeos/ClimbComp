@@ -1,8 +1,9 @@
 import React from "react";
 import { API_URL } from "../constants";
 
-function CreateNewCompetition() {
+function CreateNewCompetition(props) {
   const [competitionName, setCompetitionName] = React.useState("");
+  const [competitionChallenge, setCompetitionChallenge] = React.useState(0);
   const [competitors, setCompetitors] = React.useState([]);
   const [newCompetitor, setNewCompetitor] = React.useState({
     name: `Competitor ${competitors.length}`,
@@ -43,9 +44,11 @@ function CreateNewCompetition() {
     sortCompetitors();
 
     let name = competitionName;
+    let challenge = competitionChallenge;
 
     const competitionData = {
       name,
+      challenge,
       competitors,
     };
 
@@ -70,19 +73,37 @@ function CreateNewCompetition() {
   return (
     <div>
       <div className="my-3">
-        <label className="text-light font-semibold w-full">
-          Competition Name
-          <input
-            className="rounded-lg text-nightsky-950 p-1 mx-10"
-            placeholder="Name your Competition"
-            type="text"
-            name="competitionName"
-            maxLength="40"
-            value={competitionName}
-            onChange={(e) => setCompetitionName(e.target.value)}
-            required
-          />
-        </label>
+        {props.challenges && (
+          <div className="block">
+            <label className="text-light font-semibold w-full">
+              Competition Name
+              <input
+                className="rounded-lg text-nightsky-950 p-1 mx-10"
+                placeholder="Name your Competition"
+                type="text"
+                name="competitionName"
+                maxLength="40"
+                value={competitionName}
+                onChange={(e) => setCompetitionName(e.target.value)}
+                required
+              />
+            </label>
+            <label className="block text-light font-semibold w-full my-2">
+              Challenge
+              <select
+                className="rounded-lg text-nightsky-950 p-1 mx-10 w-1/3"
+                name="Challenge"
+                value={competitionChallenge}
+                onChange={(e) => setCompetitionChallenge(e.target.value)}
+                required
+              >
+                {props.challenges.map((challenge, index) => (
+                  <option value={challenge.id}>{challenge.name}</option>
+                ))}
+              </select>
+            </label>
+          </div>
+        )}
       </div>
       <div className="flex justify-between bg-daysky-400 border-2 border-light rounded-t-lg">
         <h3 className="text-nightsky-950 font-bold w-1/2 px-2">

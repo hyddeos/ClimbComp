@@ -8,7 +8,6 @@ defmodule ClimbcompWeb.ChallengeController do
 
   def index(conn, _params) do
     challenges = Challenges.list_challanges()
-
     json(conn, build_challenges_json(challenges))
   end
 
@@ -46,6 +45,7 @@ defmodule ClimbcompWeb.ChallengeController do
 
   defp build_challenge_json(challenge) do
     %{
+      id: challenge.id,
       name: challenge.name,
       problems: Enum.map(challenge.problems, fn problem -> build_problem_json(problem) end)
     }

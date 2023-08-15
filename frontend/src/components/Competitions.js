@@ -27,7 +27,11 @@ function Competitions(props) {
           {creatingCompetiton ? "Close" : "Start New"}
         </button>
       </div>
-      {creatingCompetiton ? <CreateNewCompetition /> : <ListCompetitions />}
+      {creatingCompetiton ? (
+        <CreateNewCompetition challenges={props.challenges} />
+      ) : (
+        <ListCompetitions />
+      )}
     </div>
   );
 }

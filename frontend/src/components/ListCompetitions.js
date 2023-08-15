@@ -9,7 +9,7 @@ function ListCompetitions(props) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(`${API_URL}/api/challenge`); // Replace with your API endpoint URL
+        const response = await fetch(`${API_URL}/api/....`); // Replace with your API endpoint URL
         if (response.ok) {
           const jsonData = await response.json();
           setData(jsonData);
