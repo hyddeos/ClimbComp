@@ -1,5 +1,17 @@
-defmodule Climbcomp.Repo.Migrations.ResultTable do
+defmodule Climbcomp.Repo.Migrations.CompetitionsUpdate do
   use Ecto.Migration
+
+  def change do
+    create table(:competition) do
+      add :name, :string
+      add :challenge_id, references(:challenges)
+      add :competitors, {:array, :string}
+
+      timestamps()
+    end
+
+    create unique_index(:competition, [:name])
+  end
 
   def change do
     create table(:competition) do
@@ -11,5 +23,6 @@ defmodule Climbcomp.Repo.Migrations.ResultTable do
       add :attemps, :integer
 
       timestamps()
+    end
   end
 end

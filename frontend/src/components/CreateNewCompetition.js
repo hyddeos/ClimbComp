@@ -52,6 +52,7 @@ function CreateNewCompetition(props) {
       competitors,
     };
 
+    console.log("Competition Data:", JSON.stringify(competitionData));
     try {
       const response = await fetch(`${API_URL}/api/competition`, {
         method: "POST",
