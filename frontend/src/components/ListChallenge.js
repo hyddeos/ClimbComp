@@ -1,8 +1,6 @@
 import React from "react";
 
 function ListChallenge(props) {
-  console.log("props", props.challenges);
-
   return (
     <div className="border border-nightsky-900">
       <div className="flex mt-1">

@@ -32,7 +32,6 @@ function HostMode() {
 
     fetchData();
   }, []);
-  console.log("challenges", challenges);
 
   return (
     <>

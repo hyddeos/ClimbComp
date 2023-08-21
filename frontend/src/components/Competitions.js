@@ -8,10 +8,8 @@ function Competitions(props) {
   function ShowCreateCompetiton() {
     if (!creatingCompetiton) {
       setCreatingCompetiton(true);
-      console.log("ture");
     } else {
       setCreatingCompetiton(false);
-      console.log("flase");
     }
   }
   return (

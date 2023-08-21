@@ -9,5 +9,7 @@ defmodule Climbcomp.Repo.Migrations.CompetitionTable do
 
       timestamps()
     end
+
     create unique_index(:competition, [:name])
+  end
 end

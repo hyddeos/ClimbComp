@@ -35,8 +35,9 @@ function Timer(props) {
     }
   };
   return (
-    <div className="bg-nightsky-950 p-4">
-      <p className="text-center text-7xl text-light">
+    <div className="bg-nightsky-950 py-2">
+      <h3 className="text-light text-center">Timer</h3>
+      <p className="text-center text-6xl text-light">
         {minutes.toString().padStart(2, "0")}:
         {seconds.toString().padStart(2, "0")}:
         {milliseconds.toString().padStart(2, "0")}
@@ -56,7 +57,7 @@ function Timer(props) {
           Reset
         </button>
       </div>
-      <h5 className="text-error font-bold text-center">{timeMessage}</h5>
+      <h5 className="text-error font-bold text-center m-2">{timeMessage}</h5>
     </div>
   );
 }

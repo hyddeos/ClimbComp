@@ -4,29 +4,29 @@ import { API_URL } from "../constants";
 function CreateNewCompetition(props) {
   const [competitionName, setCompetitionName] = React.useState("");
   const [competitionChallenge, setCompetitionChallenge] = React.useState(0);
-  const [competitors, setCompetitors] = React.useState([]);
+  const [competitorsData, setcompetitorsData] = React.useState([]);
   const [newCompetitor, setNewCompetitor] = React.useState({
-    name: `Competitor ${competitors.length}`,
+    name: `Competitor ${competitorsData.length}`,
     skill: 0,
   });
 
   const addCompetitor = (e) => {
     e.preventDefault();
-    setCompetitors([...competitors, newCompetitor]);
+    setcompetitorsData([...competitorsData, newCompetitor]);
 
     // Reset the newCompetitor state to clear the fields
     setNewCompetitor({
-      name: `Competitor ${competitors.length + 1}`,
+      name: `Competitor ${competitorsData.length + 1}`,
       skill: 0,
     });
   };
 
-  function sortCompetitors() {
-    const sortedCompetitors = [...competitors].sort(
+  function sortcompetitorsData() {
+    const sortedcompetitorsData = [...competitorsData].sort(
       (a, b) => a.skill - b.skill
     );
-    const reversedCompetitors = sortedCompetitors.reverse();
-    setCompetitors(reversedCompetitors);
+    const reversedcompetitorsData = sortedcompetitorsData.reverse();
+    setcompetitorsData(reversedcompetitorsData);
   }
 
   const handleInputChange = (e) => {
@@ -38,21 +38,20 @@ function CreateNewCompetition(props) {
   };
 
   const handleSubmit = async (event) => {
-    console.log("submitting");
     event.preventDefault();
 
-    sortCompetitors();
+    sortcompetitorsData();
 
-    let name = competitionName;
-    let challenge = competitionChallenge;
+    const name = competitionName;
+    const challenge_id = competitionChallenge;
+    const competitors = competitorsData.map((competitor) => competitor.name);
 
     const competitionData = {
       name,
-      challenge,
+      challenge_id,
       competitors,
     };
 
-    console.log("Competition Data:", JSON.stringify(competitionData));
     try {
       const response = await fetch(`${API_URL}/api/competition`, {
         method: "POST",
@@ -111,7 +110,7 @@ function CreateNewCompetition(props) {
           Competitor Creator{" "}
         </h3>
         <h3 className="text-nightsky-950 font-bold text-right w-1/2 px-2">
-          Current Competitors: {competitors.length}
+          Current competitorsData: {competitorsData.length}
         </h3>
       </div>
 

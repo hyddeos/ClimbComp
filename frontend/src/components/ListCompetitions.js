@@ -9,11 +9,10 @@ function ListCompetitions(props) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(`${API_URL}/api/....`); // Replace with your API endpoint URL
+        const response = await fetch(`${API_URL}/api/competition`); // Replace with your API endpoint URL
         if (response.ok) {
           const jsonData = await response.json();
           setData(jsonData);
-          console.log("OK!", jsonData);
         } else {
           console.error("Request failed with status:", response.status);
         }
@@ -24,6 +23,8 @@ function ListCompetitions(props) {
 
     fetchData();
   }, []);
+  console.log("competition data", data);
+
   return (
     <div className="border border-nightsky-900 flex mt-2">
       <div className="w-1/2 text-light font-semibold px-2">Name</div>

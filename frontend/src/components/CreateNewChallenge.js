@@ -51,7 +51,6 @@ function CreateNewChallenge() {
   };
 
   const handleSubmit = async (event) => {
-    console.log("submitting");
     event.preventDefault();
 
     let name = challengeName;

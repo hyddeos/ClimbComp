@@ -4,9 +4,13 @@ defmodule Climbcomp.Competition do
 
   schema "competition" do
     field :name, :string
-    belongs_to :challenge, Climbcomp.Challenge
     field :competitors, {:array, :string}
+
+    belongs_to :challenge, Climbcomp.Challenge
+
     has_many :result, Climbcomp.Result
+
+    timestamps()
   end
 
   @required_fields ~w(name challenge_id competitors)a
