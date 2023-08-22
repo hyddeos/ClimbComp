@@ -28,7 +28,7 @@ function Competitions(props) {
       {creatingCompetiton ? (
         <CreateNewCompetition challenges={props.challenges} />
       ) : (
-        <ListCompetitions />
+        <ListCompetitions competitions={props.competitions} />
       )}
     </div>
   );

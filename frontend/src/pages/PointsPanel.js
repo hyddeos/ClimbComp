@@ -1,9 +1,12 @@
 import React from "react";
 import Timer from "../components/Timer";
+import { useNavigate } from "react-router-dom";
 
 function PointsPanel() {
+  const navigate = useNavigate();
   return (
     <div>
+      <button onClick={() => navigate(-1)}>BACK</button>
       <h1 className="text-center font-bold m-2">Competition Title</h1>
       <h3 className="mx-4">
         Competitor: <span className="font-bold text-right">XXX</span>

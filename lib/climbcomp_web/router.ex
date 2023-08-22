@@ -1,4 +1,5 @@
 defmodule ClimbcompWeb.Router do
+  alias ClimbcompWeb.ResultController
   use ClimbcompWeb, :router
 
   import ClimbcompWeb.UserAuth
@@ -44,6 +45,7 @@ defmodule ClimbcompWeb.Router do
     get "/challenge", ChallengeController, :index
     post "/competition", CompetitionController, :create
     get "/competition", CompetitionController, :index
+    get "/result", ResultController, :index
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

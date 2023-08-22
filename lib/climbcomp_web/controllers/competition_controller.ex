@@ -31,10 +31,9 @@ defmodule ClimbcompWeb.CompetitionController do
   end
 
   defp build_competition_json(competition) do
-    IO.inspect(competition, label: "build_comp")
-
     %{
       name: competition.name,
+      id: competition.id,
       challenge_id: competition.challenge_id,
       competitors: competition.competitors
     }

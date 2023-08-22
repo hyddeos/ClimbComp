@@ -8,6 +8,7 @@ import { API_URL } from "../constants";
 
 function HostMode() {
   const [challenges, setChallenges] = useState(null);
+  const [competitions, setCompetitions] = useState(null);
   const [userLoggedIn, setUserLoggedIn] = React.useState(false); // CHANGE userLoggedIn to token later ----------
 
   function Logout() {
@@ -18,12 +19,22 @@ function HostMode() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(`${API_URL}/api/challenge`); // Replace with your API endpoint URL
-        if (response.ok) {
-          const jsonData = await response.json();
-          setChallenges(jsonData);
+        const challengeResponse = await fetch(`${API_URL}/api/challenge`);
+        const competitionResponse = await fetch(`${API_URL}/api/competition`);
+        if (challengeResponse.ok && competitionResponse.ok) {
+          const challengeJsonData = await challengeResponse.json();
+          const competitionJsonData = await competitionResponse.json();
+          setChallenges(challengeJsonData);
+          setCompetitions(competitionJsonData);
         } else {
-          console.error("Request failed with status:", response.status);
+          console.error(
+            "Challenge Request failed with status:",
+            challengeResponse.status
+          );
+          console.error(
+            "Competition Request failed with status:",
+            competitionResponse.status
+          );
         }
       } catch (error) {
         console.error("Error:", error);
@@ -32,6 +43,7 @@ function HostMode() {
 
     fetchData();
   }, []);
+  console.log("comp", competitions);
 
   return (
     <>
@@ -41,7 +53,7 @@ function HostMode() {
       </button>
       {userLoggedIn ? (
         <>
-          <Competitions challenges={challenges} />
+          <Competitions competitions={competitions} />
           <Challenges challenges={challenges} />
         </>
       ) : (

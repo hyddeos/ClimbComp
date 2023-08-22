@@ -1,36 +1,32 @@
-import React, { useEffect, useState } from "react";
-import CreateNewCompetition from "./CreateNewChallenge";
-
-import { API_URL } from "../constants";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function ListCompetitions(props) {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch(`${API_URL}/api/competition`); // Replace with your API endpoint URL
-        if (response.ok) {
-          const jsonData = await response.json();
-          setData(jsonData);
-        } else {
-          console.error("Request failed with status:", response.status);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-
-    fetchData();
-  }, []);
-  console.log("competition data", data);
+  const navigate = useNavigate();
 
   return (
-    <div className="border border-nightsky-900 flex mt-2">
-      <div className="w-1/2 text-light font-semibold px-2">Name</div>
-      <div className="w-1/2 text-light font-semibold px-2">Challange</div>
-      <div className="w-1/2 text-light font-semibold px-2">Competitors</div>
-      <div className="w-1/8 text-light font-semibold px-2">Live</div>
+    <div className="border border-nightsky-900 mt-2">
+      <div className="flex mt-1">
+        <div className="w-1/2 text-light font-semibold px-2">Name</div>
+        <div className="w-1/2 text-light text-right font-semibold px-2">
+          Competitors
+        </div>
+      </div>
+      {props.competitions &&
+        props.competitions.map((competition, index) => (
+          <div
+            key={index}
+            className="flex my-2 hover:bg-nightsky-700"
+            onClick={() => navigate(`/compid?=${competition.id}`)}
+          >
+            <div key={index} className="w-1/2 text-light px-2">
+              {competition.name}
+            </div>
+            <div className="w-1/2 text-light text-right px-2">
+              {competition.competitors.length}
+            </div>
+          </div>
+        ))}
     </div>
   );
 }

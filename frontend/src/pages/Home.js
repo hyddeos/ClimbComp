@@ -1,6 +1,5 @@
 import React from "react";
 import PageTitle from "../components/PageTitle";
-import Timer from "../components/Timer";
 
 function Home() {
   return (
@@ -13,8 +12,6 @@ function Home() {
       <a className="text-acc-600" href="/register">
         REGISTER
       </a>
-      <h1 className="">This is Home</h1>
-      <Timer timelimit="24000" />
     </div>
   );
 }
