@@ -43,7 +43,7 @@ function HostMode() {
 
     fetchData();
   }, []);
-  console.log("comp", competitions);
+  console.log("COMP:", competitions, "CHALL", challenges);
 
   return (
     <>
@@ -53,7 +53,7 @@ function HostMode() {
       </button>
       {userLoggedIn ? (
         <>
-          <Competitions competitions={competitions} />
+          <Competitions competitions={competitions} challenges={challenges} />
           <Challenges challenges={challenges} />
         </>
       ) : (

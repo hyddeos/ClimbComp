@@ -12,6 +12,7 @@ function Competitions(props) {
       setCreatingCompetiton(false);
     }
   }
+
   return (
     <div className="bg-nightsky-950 p-6 mt-4">
       <div className="flex justify-between">

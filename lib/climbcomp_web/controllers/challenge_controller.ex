@@ -3,7 +3,6 @@ defmodule ClimbcompWeb.ChallengeController do
 
   alias Climbcomp.Challenge
   alias Climbcomp.Challenges
-  alias Climbcomp.Problem
   alias Climbcomp.Repo
 
   def index(conn, _params) do

@@ -2,7 +2,6 @@ defmodule Climbcomp.Challenge do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Climbcomp.Repo
   alias Climbcomp.Problem
 
   schema "challenges" do

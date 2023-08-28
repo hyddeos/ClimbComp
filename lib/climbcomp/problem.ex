@@ -10,6 +10,7 @@ defmodule Climbcomp.Problem do
     field :timelimit, :integer
     field :zonepoints, :integer
     field :toppoints, :integer
+
     belongs_to :challenge, Climbcomp.Challenge
   end
 

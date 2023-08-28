@@ -3,7 +3,6 @@ defmodule ClimbcompWeb.CompetitionController do
 
   alias Climbcomp.Competition
   alias Climbcomp.Competitions
-  alias Climbcomp.Repo
 
   def index(conn, _params) do
     competitions = Competitions.list_competitions()

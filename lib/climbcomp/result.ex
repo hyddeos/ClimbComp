@@ -4,18 +4,23 @@ defmodule Climbcomp.Result do
 
   schema "result" do
     field :competitor, :string
-    belongs_to :challenge, Climbcomp.Challenge
-    has_one :problem, Climbcomp.Problem
     field :points, :float
     field :time, :integer
-    field :attemps, :integer
+    field :attempts, :integer
+
+    belongs_to :competition, Climbcomp.Competition
+    belongs_to :challenge, Climbcomp.Challenge
+    belongs_to :problem, Climbcomp.Problem
+
+    timestamps()
   end
 
-  @required_fields ~w(name challenge problem points)a
+  @required_fields ~w(competitor points competition_id challenge_id problem_id)a
 
   def changeset(result, attrs) do
     result
     |> cast(attrs, @required_fields)
     |> validate_required(@required_fields)
+    |> IO.inspect()
   end
 end

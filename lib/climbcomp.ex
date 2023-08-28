@@ -1,6 +1,4 @@
 defmodule Climbcomp do
-  alias Climbcomp.Challenge
-
   @moduledoc """
   Climbcomp keeps the contexts that define your domain
   and business logic.
