@@ -13,7 +13,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<HostMode />} />
           <Route exact path="register" element={<Register />} />
-          <Route exact path="compid" element={<PointsPanel />} />
+          <Route exact path="competition" element={<PointsPanel />} />
         </Routes>
       </BrowserRouter>
     </div>

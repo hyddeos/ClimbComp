@@ -1,9 +1,57 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import Timer from "../components/Timer";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../constants";
 
 function PointsPanel() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const compId = searchParams.get("id");
+  console.log("compid", compId);
+
+  /*
+    try {
+      const response = await fetch(`${API_URL}/api/competition`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ competition: competitionData }),
+      });
+
+      if (response.ok) {
+        console("Succes", response);
+      } else {
+      }
+    } catch (error) {
+      console.error("Error", error);
+    }
+  };
+  */
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(`${API_URL}/api/result/${compId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          //body: JSON.stringify("hej"),
+        });
+
+        if (response.ok) {
+          console("Succes", response);
+        } else {
+        }
+      } catch (error) {
+        console.error("Error", error);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <div>
       <button onClick={() => navigate(-1)}>BACK</button>

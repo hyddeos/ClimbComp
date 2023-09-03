@@ -12,4 +12,16 @@ defmodule Climbcomp.Competitions do
     Competition
     |> Repo.all()
   end
+
+  def get_competitors(competition_id) do
+    competition = Repo.get(Competition, competition_id)
+
+    case competition do
+      %Climbcomp.Competition{competitors: competitors} ->
+        competitors
+
+      _ ->
+        IO.puts("No competitors found")
+    end
+  end
 end

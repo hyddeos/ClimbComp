@@ -13,7 +13,7 @@ function ListChallenge(props) {
         props.challenges.map((challenge, index) => (
           <div key={index} className="flex my-2">
             <div key={index} className="w-1/2 text-light px-2">
-              {challenge.name}
+              {challenge.name}({challenge.id})
             </div>
             <div className="w-1/2 text-light text-right px-2">
               {challenge.problems.length}

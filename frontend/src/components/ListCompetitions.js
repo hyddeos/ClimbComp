@@ -17,10 +17,10 @@ function ListCompetitions(props) {
           <div
             key={index}
             className="flex my-2 hover:bg-nightsky-700"
-            onClick={() => navigate(`/compid?=${competition.id}`)}
+            onClick={() => navigate(`/competition/?id=${competition.id}`)}
           >
             <div key={index} className="w-1/2 text-light px-2">
-              {competition.name}
+              {competition.name}({competition.id})
             </div>
             <div className="w-1/2 text-light text-right px-2">
               {competition.competitors.length}

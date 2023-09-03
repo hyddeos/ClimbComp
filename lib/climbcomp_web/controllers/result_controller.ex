@@ -6,23 +6,22 @@ defmodule ClimbcompWeb.ResultController do
   alias Climbcomp.Results
 
   def index(conn, %{"id" => id}) do
-    results = Results.get_current_state(id)
-    IO.puts("Res Controller " <> id <> results)
-    Logger.info("--------Inside The Index", id)
-
+    # results = Results.get_current_state(id)
     conn
+    |> put_status(200)
+    |> send_resp(:ok, "OK")
   end
 
   def create(conn, %{"result" => result_params}) do
+    competition_id = result_params["competition_id"]
+    Logger.info("Competition ID: #{competition_id}")
+
     case Results.save_result(result_params) do
       {:ok, %Result{} = _result} ->
-        # result = Climbcomp.Repo.preload(result, [:competition, :challenge, :problem])
+        next_competitor_data = Results.get_next_competitor_data(result_params)
 
         conn
-        |> send_resp(:created, "")
-
-      # |> put_status(:created)
-      # |> json(build_result_json(result))
+        |> put_status(:created)
 
       {:error, changeset} ->
         conn

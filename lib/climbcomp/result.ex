@@ -6,7 +6,7 @@ defmodule Climbcomp.Result do
     field :competitor, :string
     field :points, :float
     field :time, :integer
-    field :attempts, :integer
+    field :attemps, :integer
 
     belongs_to :competition, Climbcomp.Competition
     belongs_to :challenge, Climbcomp.Challenge

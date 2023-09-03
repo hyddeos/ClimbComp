@@ -6,6 +6,7 @@ defmodule Climbcomp.Challenge do
 
   schema "challenges" do
     field :name, :string
+    # field :total_problems, :interger
     has_many :problems, Problem
 
     timestamps()
