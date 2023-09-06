@@ -1,4 +1,6 @@
 defmodule Climbcomp.Competitions do
+  import Ecto.Query
+
   alias Climbcomp.Competition
   alias Climbcomp.Repo
 
@@ -11,6 +13,14 @@ defmodule Climbcomp.Competitions do
   def list_competitions do
     Competition
     |> Repo.all()
+  end
+
+  def get_challenge_id_for_competition(competition_id) do
+    from(c in Climbcomp.Competition,
+      where: c.id == ^competition_id,
+      select: c.challenge_id
+    )
+    |> Repo.one()
   end
 
   def get_competitors(competition_id) do

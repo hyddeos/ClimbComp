@@ -6,10 +6,13 @@ defmodule ClimbcompWeb.ResultController do
   alias Climbcomp.Results
 
   def index(conn, %{"id" => id}) do
-    # results = Results.get_current_state(id)
+    results = Results.load_competition(id)
+    Logger.info("returning results")
+    IO.inspect(results, label: "Inspect results")
+
     conn
     |> put_status(200)
-    |> send_resp(:ok, "OK")
+    |> json(results)
   end
 
   def create(conn, %{"result" => result_params}) do

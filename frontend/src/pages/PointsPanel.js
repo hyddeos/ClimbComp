@@ -7,48 +7,27 @@ import { API_URL } from "../constants";
 function PointsPanel() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [competitionState, setCompetitionState] = useState(null);
   const searchParams = new URLSearchParams(location.search);
   const compId = searchParams.get("id");
   console.log("compid", compId);
 
-  /*
-    try {
-      const response = await fetch(`${API_URL}/api/competition`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ competition: competitionData }),
-      });
-
-      if (response.ok) {
-        console("Succes", response);
-      } else {
-      }
-    } catch (error) {
-      console.error("Error", error);
-    }
-  };
-  */
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/result/${compId}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          //body: JSON.stringify("hej"),
-        });
+        const response = await fetch(`${API_URL}/api/result/${compId}`);
 
-        if (response.ok) {
-          console("Succes", response);
-        } else {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
         }
+
+        const responseData = await response.json();
+        setCompetitionState(responseData);
       } catch (error) {
-        console.error("Error", error);
+        console.error("Error:", error);
       }
-    }
+    };
+
     fetchData();
   }, []);
 
