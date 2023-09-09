@@ -10,7 +10,7 @@ function PointsPanel() {
   const [competitionState, setCompetitionState] = useState(null);
   const searchParams = new URLSearchParams(location.search);
   const compId = searchParams.get("id");
-  console.log("compid", compId);
+  console.log("compid", competitionState);
 
   useEffect(() => {
     const fetchData = async () => {

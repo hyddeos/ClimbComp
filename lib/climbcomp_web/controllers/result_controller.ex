@@ -7,8 +7,7 @@ defmodule ClimbcompWeb.ResultController do
 
   def index(conn, %{"id" => id}) do
     results = Results.load_competition(id)
-    Logger.info("returning results")
-    IO.inspect(results, label: "Inspect results")
+    IO.inspect(results, label: "Results To Return Back To Json")
 
     conn
     |> put_status(200)
@@ -25,6 +24,7 @@ defmodule ClimbcompWeb.ResultController do
 
         conn
         |> put_status(:created)
+        |> json(next_competitor_data)
 
       {:error, changeset} ->
         conn
