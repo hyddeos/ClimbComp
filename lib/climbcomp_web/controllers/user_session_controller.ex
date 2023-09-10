@@ -10,7 +10,6 @@ defmodule ClimbcompWeb.UserSessionController do
     if user = Accounts.get_user_by_email_and_password(email, password) do
       conn
       |> UserAuth.log_in_user(user, user_params)
-      |> json(%{status: "succes"})
     else
       # In order to prevent user enumeration attacks, don't disclose whether the email is registered.
       conn

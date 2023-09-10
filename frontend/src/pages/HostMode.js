@@ -9,11 +9,20 @@ import { API_URL } from "../constants";
 function HostMode() {
   const [challenges, setChallenges] = useState(null);
   const [competitions, setCompetitions] = useState(null);
-  const [userLoggedIn, setUserLoggedIn] = React.useState(false); // CHANGE userLoggedIn to token later ----------
+  const [userToken, setUserToken] = React.useState(false);
+
+  useEffect(() => {
+    // Check if the authentication token exists in localStorage
+    const authToken = localStorage.getItem("authToken");
+    if (authToken) {
+      setUserToken(true);
+    }
+  }, []);
 
   function Logout() {
-    console.log("logging user out");
-    setUserLoggedIn(false);
+    console.log("logging out User");
+    localStorage.removeItem("authToken");
+    setUserToken("");
   }
 
   useEffect(() => {
@@ -43,7 +52,7 @@ function HostMode() {
 
     fetchData();
   }, []);
-  console.log("COMP:", competitions, "CHALL", challenges);
+  console.log("COMP:", competitions, "CHALL", challenges, "Token", userToken);
 
   return (
     <>
@@ -51,13 +60,17 @@ function HostMode() {
       <button className="bg-light" onClick={() => Logout()}>
         log out
       </button>
-      {userLoggedIn ? (
+      {userToken ? (
         <>
-          <Competitions competitions={competitions} challenges={challenges} />
-          <Challenges challenges={challenges} />
+          <Competitions
+            competitions={competitions}
+            challenges={challenges}
+            userToken={userToken}
+          />
+          <Challenges challenges={challenges} userToken={userToken} />
         </>
       ) : (
-        <Login setUserLoggedIn={setUserLoggedIn} />
+        <Login setUserToken={setUserToken} />
       )}
     </>
   );

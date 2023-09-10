@@ -23,8 +23,9 @@ function Login(props) {
       if (response.ok) {
         console.log("--login succesful-- ");
         const data = await response.json();
-        if (data.status === "succes") {
-          props.setUserLoggedIn(true);
+        if (data.token) {
+          props.setUserToken(true);
+          localStorage.setItem("authToken", data.token);
         }
       } else {
         console.log("--login failed--");
