@@ -26,6 +26,7 @@ function Login(props) {
         if (data.token) {
           props.setUserToken(true);
           localStorage.setItem("authToken", data.token);
+          window.location.reload();
         }
       } else {
         console.log("--login failed--");

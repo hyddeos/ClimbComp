@@ -17,6 +17,7 @@ defmodule Climbcomp.Results do
 
   def load_competition(competition_id) do
     # Called when a GET request is called from the Competition by ID
+    competition_title = Competitions.get_competition_title(competition_id)
     competitors = Competitions.get_competitors(competition_id)
 
     total_problems =
@@ -35,6 +36,7 @@ defmodule Climbcomp.Results do
       # Start the competition if no results if found
       [] ->
         %{
+          competition_title: competition_title,
           competitor: List.first(competitors),
           problem_nr: 1,
           total_problems: total_problems,
@@ -46,6 +48,7 @@ defmodule Climbcomp.Results do
         problem_nr = div(length(results), length(competitors)) + 1
 
         %{
+          competition_title: competition_title,
           competitor: who_is_next_competitor(competitors, List.first(results)),
           problem_nr: problem_nr,
           total_problems: total_problems,
@@ -56,6 +59,7 @@ defmodule Climbcomp.Results do
 
   def get_next_competitor_data(result_params) do
     # Called when a POST has been made with new results, this fetches the data for the next competitor
+    competition_title = Competitions.get_competition_title(result_params["competition_id"])
     competitors = Competitions.get_competitors(result_params["competition_id"])
     total_problems = Problems.count_problems_in_challenge(result_params["challenge_id"])
 
@@ -65,6 +69,7 @@ defmodule Climbcomp.Results do
     problem_nr = div(length(results), length(competitors)) + 1
 
     %{
+      competition_title: competition_title,
       competitor: who_is_next_competitor(competitors, List.first(results)),
       problem_nr: problem_nr,
       total_problems: total_problems,

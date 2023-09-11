@@ -23,6 +23,18 @@ defmodule Climbcomp.Competitions do
     |> Repo.one()
   end
 
+  def get_competition_title(competition_id) do
+    competition = Repo.get(Competition, competition_id)
+
+    case competition do
+      %Climbcomp.Competition{name: name} ->
+        name
+
+      _ ->
+        IO.puts("No competitors found")
+    end
+  end
+
   def get_competitors(competition_id) do
     competition = Repo.get(Competition, competition_id)
 

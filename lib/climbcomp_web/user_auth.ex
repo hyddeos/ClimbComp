@@ -4,6 +4,7 @@ defmodule ClimbcompWeb.UserAuth do
   import Plug.Conn
   import Phoenix.Controller
 
+  require Logger
   alias Climbcomp.Accounts
 
   # Make the remember me cookie valid for 60 days.

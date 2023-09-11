@@ -5,9 +5,9 @@ function CreateNewChallenge() {
   const [challengeName, setChallengeName] = React.useState("");
   const [problems, setProblems] = React.useState([]);
   const [newProblem, setNewProblem] = React.useState({
-    name: "test",
+    name: "",
     type: "boulder", // Default type is 'boulder', other sportclimb
-    grade: "6a",
+    grade: "",
     position: "",
     timelimit: 240, // Default is 4 min,
     zonepoints: 3,
@@ -16,13 +16,24 @@ function CreateNewChallenge() {
 
   const addProblem = (e) => {
     e.preventDefault();
-    setProblems([...problems, newProblem]);
+    if (
+      newProblem.name &&
+      newProblem.grade &&
+      newProblem.type &&
+      newProblem.timelimit &&
+      newProblem.zonepoints &&
+      newProblem.toppoints
+    ) {
+      setProblems([...problems, newProblem]);
+    } else {
+      console.log("Error, problems not corretly added");
+    }
 
     // Reset the newProblem state to clear the fields
     setNewProblem({
-      name: "test",
+      name: "",
       type: "boulder",
-      grade: "6a",
+      grade: "",
       position: "",
       timelimit: 240,
       zonepoints: 3,
@@ -42,7 +53,9 @@ function CreateNewChallenge() {
     } else {
       // If the type is set to "boulder", show zonepoints and set its value back to 3
       const intValue =
-        name === "toppoints" || "zonepoints" ? parseInt(value, 10) : value;
+        name === "toppoints" || name === "zonepoints"
+          ? parseInt(value, 10)
+          : value;
       setNewProblem({
         ...newProblem,
         [name]: intValue,
@@ -61,20 +74,27 @@ function CreateNewChallenge() {
     };
 
     try {
+      const authToken = localStorage.getItem("authToken");
       const response = await fetch(`${API_URL}/api/challenge`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify({ challenge: challengeData }),
       });
-
+      console.log("respone", response);
       if (response.ok) {
-        console("Succes", response);
+        console.log("Succes", response);
+        window.location.reload();
       } else {
+        console.log("error, refill");
+        setChallengeName("");
+        setProblems([]);
       }
     } catch (error) {
       console.error("Error", error);
+      localStorage.removeItem("authToken");
     }
   };
 

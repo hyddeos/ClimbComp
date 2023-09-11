@@ -23,6 +23,8 @@ defmodule ClimbcompWeb.CompetitionController do
     end
   end
 
+  def connect(_conn, _token, _params), do: :error
+
   defp build_competitions_json(competitions) do
     for competition <- competitions do
       build_competition_json(competition)

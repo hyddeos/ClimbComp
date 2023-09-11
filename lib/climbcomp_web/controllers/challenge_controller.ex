@@ -1,6 +1,7 @@
 defmodule ClimbcompWeb.ChallengeController do
   use ClimbcompWeb, :controller
 
+  require Logger
   alias Climbcomp.Challenge
   alias Climbcomp.Challenges
   alias Climbcomp.Repo

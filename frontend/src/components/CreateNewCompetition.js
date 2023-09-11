@@ -55,17 +55,21 @@ function CreateNewCompetition(props) {
     console.log("Sending", { competition: competitionData });
 
     try {
+      const authToken = localStorage.getItem("authToken");
       const response = await fetch(`${API_URL}/api/competition`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify({ competition: competitionData }),
       });
 
       if (response.ok) {
-        console("Succes", response);
+        console.log("Succes", response);
+        window.location.reload();
       } else {
+        console.log("Error...", response);
       }
     } catch (error) {
       console.error("Error", error);
