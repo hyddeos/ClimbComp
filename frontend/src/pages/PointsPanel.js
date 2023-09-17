@@ -8,17 +8,23 @@ import Scoreboard from "../components/Scoreboard";
 function PointsPanel() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [showScoreboard, setShowScoreboard] = useState(true);
-  const [competitionState, setCompetitionState] = useState(null);
   const searchParams = new URLSearchParams(location.search);
   const compId = searchParams.get("id");
+
+  const [showScoreboard, setShowScoreboard] = useState(false);
+  const [competitionState, setCompetitionState] = useState(null);
+  const [attempts, setAttempts] = useState(1);
+  const [zone, setZone] = useState(false);
+  const [top, setTop] = useState(false);
+  const [time, setTime] = useState(0);
+
   console.log("compid", competitionState);
 
+  // GET
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(`${API_URL}/api/result/${compId}`);
-
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

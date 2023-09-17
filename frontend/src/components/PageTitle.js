@@ -1,15 +1,19 @@
 import React from "react";
 
+import climber2 from "../assets/climber2.svg";
+
 function PageTitle(props) {
   return (
-    <>
-      <h2 className="text-center font-header text-nightsky-950 text-4xl mt-6 mb-0">
+    <div className="w-full m-auto relative">
+      <img
+        className="absolute h-24"
+        src={climber2}
+        alt="a climber climbing an overhang"
+      />
+      <h2 className=" text-center font-header font-extrabold text-text-100 text-2xl p-3 rounded-b-lg">
         {props.title}
       </h2>
-      <h2 className="text-center font-body text-light text-2xl mt-0 mb-4">
-        {props.info}
-      </h2>
-    </>
+    </div>
   );
 }
 

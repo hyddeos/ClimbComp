@@ -1,5 +1,6 @@
 import React from "react";
 import { API_URL } from "../constants";
+import { MdQuiz } from "react-icons/md";
 
 function CreateNewChallenge() {
   const [challengeName, setChallengeName] = React.useState("");
@@ -99,13 +100,13 @@ function CreateNewChallenge() {
   };
 
   return (
-    <div>
-      <div className="my-3">
-        <label className="text-light font-semibold w-full">
-          Challenge Name
+    <>
+      <div className="bg-bg-200 rounded-lg mt-2 p-2 px-4">
+        <label className="text-text-100 font-semibold w-full">
+          Name <span className="font-thin text-text-200">of the Challenge</span>
           <input
-            className="rounded-lg text-nightsky-950 p-1 mx-10"
-            placeholder="Name your Challege"
+            className="rounded-lg block my-1 mb-3 py-1 px-1 w-full border border-text-200"
+            placeholder="Challenge name"
             type="text"
             name="challengeName"
             maxLength="40"
@@ -115,17 +116,19 @@ function CreateNewChallenge() {
           />
         </label>
       </div>
-      <div className="flex justify-between bg-daysky-400 border-2 border-light rounded-t-lg">
-        <h3 className="text-nightsky-950 font-bold w-1/2 px-2">
-          Problem Creator{" "}
-        </h3>
-        <h3 className="text-nightsky-950 font-bold text-right w-1/2 px-2">
-          Current Problems: {problems.length}
-        </h3>
-      </div>
-
-      <div className="p-2 border-2 border-t-0 border-light rounded-b-lg">
-        <form>
+      <div className="bg-bg-200 rounded-lg mt-4 p-2 px-4">
+        <div className=" grid grid-cols-2">
+          <h3 className="text-text-100 font-bold text-header px-2 cols-span-1">
+            Add Competitor
+          </h3>
+          <div className="flex justify-end items-center px-2">
+            <MdQuiz size={24} className="text-text-200" />
+            <span className="font-bold text-text-200 ml-2">
+              {problems.length}
+            </span>
+          </div>
+        </div>
+        <form className="mt-2 p-4 rounded-lg border w-full">
           <label className="text-light font-semibold w-full flex justify-between my-1">
             Name(Color)
             <input
@@ -220,6 +223,7 @@ function CreateNewChallenge() {
           </button>
         </form>
       </div>
+
       <div className="flex justify-center my-2">
         <button
           className="bg-acc-600 hover:bg-acc-400 text-light font-body font-bold w-28 h-20 p-3 rounded-lg"
@@ -228,7 +232,7 @@ function CreateNewChallenge() {
           Create Challenge
         </button>
       </div>
-    </div>
+    </>
   );
 }
 

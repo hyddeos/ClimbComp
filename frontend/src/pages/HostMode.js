@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import PageTitle from "../components/PageTitle";
 import Competitions from "../components/Competitions";
 import Challenges from "../components/Challenges";
 import Login from "../components/Login";
 
+import { MdLogout } from "react-icons/md";
 import { API_URL } from "../constants";
+import PageTitle from "../components/PageTitle";
 
 function HostMode() {
   const [challenges, setChallenges] = useState(null);
@@ -52,12 +53,17 @@ function HostMode() {
 
   return (
     <>
-      <PageTitle title="Host Mode" info="Create and Update" />
-      <button className="bg-light" onClick={() => Logout()}>
-        log out
-      </button>
       {userToken ? (
         <>
+          <PageTitle title="ClimbComp - Host mode" />
+          <button
+            className="absolute rounded-lg text-xs m-4 mr-5 bg-bg-200 hover:bg-primary-200 top-0 right-1 p-1 font-semibold 
+        drop-shadow"
+            onClick={() => Logout()}
+          >
+            <MdLogout size={24} className="text-text-100" />
+          </button>
+
           <Competitions
             competitions={competitions}
             challenges={challenges}

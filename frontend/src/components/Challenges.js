@@ -14,14 +14,15 @@ function Challenges(props) {
   }
 
   return (
-    <div className="bg-nightsky-950 p-6 mt-4">
+    <div className="p-6 mt-2">
       <div className="flex justify-between">
-        <h3 className="text-left font-body font-extrabold text-xl text-light">
-          {creatingCompetiton ? "Creating Challenge" : "Challenges"}
+        <h3 className="text-left font-header font-bold text-xl text-ligh">
+          {creatingCompetiton ? "Creating New Challenge" : "Challenges"}
         </h3>
         <button
           onClick={() => ShowCreateCompetiton()}
-          className="bg-acc-600 hover:bg-acc-400 text-light font-body font-bold w-24 h-6 rounded-lg"
+          className="rounded-lg bg-primary-100 hover:bg-primary-200 p-1 px-2  font-semibold 
+          drop-shadow"
         >
           {creatingCompetiton ? "Close" : "Add New"}
         </button>

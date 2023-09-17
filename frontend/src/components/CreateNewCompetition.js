@@ -1,12 +1,13 @@
 import React from "react";
 import { API_URL } from "../constants";
+import { MdGroups } from "react-icons/md";
 
 function CreateNewCompetition(props) {
   const [competitionName, setCompetitionName] = React.useState("");
   const [competitionChallenge, setCompetitionChallenge] = React.useState(0);
   const [competitorsData, setcompetitorsData] = React.useState([]);
   const [newCompetitor, setNewCompetitor] = React.useState({
-    name: `Competitor ${competitorsData.length}`,
+    name: ``,
     skill: 0,
   });
 
@@ -16,7 +17,7 @@ function CreateNewCompetition(props) {
 
     // Reset the newCompetitor state to clear the fields
     setNewCompetitor({
-      name: `Competitor ${competitorsData.length + 1}`,
+      name: ``,
       skill: 0,
     });
   };
@@ -77,14 +78,14 @@ function CreateNewCompetition(props) {
   };
 
   return (
-    <div>
-      <div className="my-3">
+    <>
+      <div className="bg-bg-200 drop-shadow rounded-lg mt-2 p-2 px-4">
         {props.challenges && (
           <div className="block">
-            <label className="text-light font-semibold w-full">
-              Competition Name
+            <label className="text-text-100 font-semibold w-full">
+              Name <span className="font-thin text-text-200">Competition</span>
               <input
-                className="rounded-lg text-nightsky-950 p-1 mx-10"
+                className="rounded-lg block my-1 mb-3 py-1 px-1 w-full border border-text-200"
                 placeholder="Name your Competition"
                 type="text"
                 name="competitionName"
@@ -94,10 +95,11 @@ function CreateNewCompetition(props) {
                 required
               />
             </label>
-            <label className="block text-light font-semibold w-full my-2">
-              Challenge
+            <label className="text-text-100 font-semibold w-full">
+              Challenge{" "}
+              <span className="font-thin text-text-200">to compete in</span>
               <select
-                className="rounded-lg text-nightsky-950 p-1 mx-10 w-1/3"
+                className="rounded-lg block my-1 mb-3 py-1 px-1 w-full border border-text-200"
                 name="Challenge"
                 value={competitionChallenge}
                 onChange={(e) => setCompetitionChallenge(e.target.value)}
@@ -111,22 +113,26 @@ function CreateNewCompetition(props) {
           </div>
         )}
       </div>
-      <div className="flex justify-between bg-daysky-400 border-2 border-light rounded-t-lg">
-        <h3 className="text-nightsky-950 font-bold w-1/2 px-2">
-          Competitor Creator{" "}
-        </h3>
-        <h3 className="text-nightsky-950 font-bold text-right w-1/2 px-2">
-          Current competitorsData: {competitorsData.length}
-        </h3>
-      </div>
 
-      <div className="p-2 border-2 border-t-0 border-light rounded-b-lg">
-        <form>
-          <label className="text-light font-semibold w-full flex justify-between my-1">
-            Name
+      <div className="bg-bg-200 rounded-lg mt-4 p-2 px-4">
+        <div className=" grid grid-cols-2">
+          <h3 className="text-text-100 font-bold text-header px-2 cols-span-1">
+            Add Competitor
+          </h3>
+          <div className="flex justify-end items-center px-2">
+            <MdGroups size={24} className="text-text-200" />
+            <span className="font-bold text-text-200 ml-2">
+              {competitorsData.length}
+            </span>
+          </div>
+        </div>
+
+        <form className="mt-2 p-4 rounded-lg border w-full">
+          <label className="text-text-100 font-semibold w-full">
+            Name <span className="font-thin text-text-200">Competitor</span>
             <input
-              className="rounded-lg text-nightsky-950 p-1 w-2/3"
-              placeholder="Name it"
+              className="rounded-lg block my-1 mb-3 py-1 px-1 w-full border border-text-200"
+              placeholder="Name of the competitor"
               type="text"
               name="name"
               maxLength="25"
@@ -135,10 +141,11 @@ function CreateNewCompetition(props) {
               required
             />
           </label>
-          <label className="text-light font-semibold w-full flex justify-between my-3">
-            Skill*
+          <label className="text-text-100 font-semibold w-full3">
+            Skill*{" "}
+            <span className="font-thin text-text-200">of the competitor</span>
             <input
-              className="rounded-lg text-nightsky-950 p-1 w-2/3"
+              className="rounded-lg block my-1 mb-3 py-1 px-1 w-full border border-text-200"
               placeholder="Est Skill"
               type="number"
               name="skill"
@@ -152,7 +159,8 @@ function CreateNewCompetition(props) {
 
           <button
             onClick={addCompetitor}
-            className="bg-acc-600 hover:bg-acc-400 text-light font-body font-bold h-8 px-2 rounded-lg my-3"
+            className="rounded-lg bg-primary-100 hover:bg-primary-200 p-1 px-2 w-full font-semibold 
+            drop-shadow"
           >
             Add Competitor
           </button>
@@ -161,16 +169,17 @@ function CreateNewCompetition(props) {
             skill goes first. If same, order according to entery.
           </p>
         </form>
+        <div className="flex justify-center my-2">
+          <button
+            className="h-20 rounded-lg bg-primary-100 hover:bg-primary-200 my-4 px-2 w-full font-semibold 
+            drop-shadow"
+            onClick={handleSubmit}
+          >
+            Create Competition
+          </button>
+        </div>
       </div>
-      <div className="flex justify-center my-2">
-        <button
-          className="bg-acc-600 hover:bg-acc-400 text-light font-body font-bold w-28 h-20 p-3 rounded-lg"
-          onClick={handleSubmit}
-        >
-          Create Competition
-        </button>
-      </div>
-    </div>
+    </>
   );
 }
 
