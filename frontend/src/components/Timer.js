@@ -31,12 +31,12 @@ function Timer(props) {
       setResetCounter(0);
     } else {
       setResetCounter(resetCounter + 1);
-      setTimeMessage("Press Rest-button 5 times to rest clock");
+      setTimeMessage("Press Reset-button 5 times to reset");
     }
   };
   return (
-    <div className="bg-nightsky-950 py-2">
-      <h3 className="text-light text-center">Timer</h3>
+    <div className="bg-bg-200 drop-shadow rounded-lg mt-2 py-1">
+      <h3 className="text-text-100 text-center font-header">Timer</h3>
       <p className="text-center text-6xl text-light">
         {minutes.toString().padStart(2, "0")}:
         {seconds.toString().padStart(2, "0")}:
@@ -45,19 +45,20 @@ function Timer(props) {
       <div className="flex justify-evenly my-4">
         {" "}
         <button
-          className="bg-acc-600 hover:bg-acc-400 text-light font-body font-bold w-28 h-20 p-3 rounded-lg"
+          drop-shadow
+          className="bg-primary-100 hover:bg-accent-100 text-light font-body font-bold w-28 h-16 p-3 rounded-lg"
           onClick={startAndStop}
         >
           {isRunning ? "Stop" : "Start"}
         </button>
         <button
-          className="bg-acc-800 hover:bg-acc-400 text-light font-body font-bold w-28 h-20 p-3 rounded-lg"
+          className="bg-primary-100 hover:bg-primary-200 text-light font-body font-bold w-28 h-16 p-3 rounded-lg"
           onClick={reset}
         >
           Reset
         </button>
       </div>
-      <h5 className="text-error font-bold text-center m-2">{timeMessage}</h5>
+      <h5 className="text-error font-bold text-center">{timeMessage}</h5>
     </div>
   );
 }

@@ -4,6 +4,13 @@ import Timer from "../components/Timer";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../constants";
 import Scoreboard from "../components/Scoreboard";
+import {
+  MdArrowBack,
+  MdScoreboard,
+  MdPerson,
+  MdQuiz,
+  MdHelpCenter,
+} from "react-icons/md";
 
 function PointsPanel() {
   const navigate = useNavigate();
@@ -19,6 +26,14 @@ function PointsPanel() {
   const [time, setTime] = useState(0);
 
   console.log("compid", competitionState);
+
+  function toggleScoreboard() {
+    if (showScoreboard) {
+      setShowScoreboard(false);
+    } else {
+      setShowScoreboard(true);
+    }
+  }
 
   // GET
   useEffect(() => {
@@ -40,8 +55,21 @@ function PointsPanel() {
   }, []);
 
   return (
-    <div>
-      <button onClick={() => navigate(-1)}>BACK</button>
+    <div className="mx-6">
+      <button
+        className="absolute rounded-lg text-xs m-4 mr-5 bg-bg-200 hover:bg-primary-200 top-0 left-1 p-1 font-semibold 
+        drop-shadow"
+        onClick={() => navigate(-1)}
+      >
+        <MdArrowBack size={32} className="text-text-100" />
+      </button>
+      <button
+        className="absolute rounded-lg text-xs m-4 mr-5 bg-bg-200 hover:bg-primary-200 top-0 right-1 p-1 font-semibold 
+        drop-shadow"
+        onClick={() => toggleScoreboard()}
+      >
+        <MdScoreboard size={32} className="text-text-100" />
+      </button>
       {competitionState ? (
         <div>
           {showScoreboard && (
@@ -50,53 +78,83 @@ function PointsPanel() {
               showScoreboard={setShowScoreboard}
             />
           )}
+          <div className="m-auto w-2/3">
+            <h1 className="text-3xl capitalize text-center font-header font-bold text-accent-200 p-4 text-ellipsis overflow-hidden">
+              {competitionState.competition_title}
+            </h1>
+          </div>
 
-          <h1 className="text-center font-bold m-2">
-            {competitionState.competition_title}
-          </h1>
-          <h3 className="mx-4 mb-2">
-            Problem:{" "}
-            <span className="font-bold">
-              {competitionState.problem_nr}/{competitionState.total_problems}
-            </span>
-          </h3>
-          <h3 className="mx-4">
-            Competitor:{" "}
-            <span className="font-bold text-right">
-              {competitionState.competitor}
-            </span>
-          </h3>
-          <div className="flex justify-center m-auto my-4">
-            <button
-              onClick={() => setShowScoreboard(true)}
-              className="bg-acc-800 hover:bg-acc-400 text-light font-body font-bold w-32 h-10 p-0 rounded"
-            >
-              Scoreboard
-            </button>
+          <div className="bg-bg-200 my-4 drop-shadow rounded-lg mt-2 p-3 px-2 flex flex-wrap justify-between">
+            <h3 className="mx-2 flex flex-row">
+              <MdPerson
+                size={24}
+                className="text-text-100 mr-2 bg-primary-100 rounded-full"
+              />
+              {"   "}
+              <span className="font-bold text-right">
+                {competitionState.competitor}
+              </span>
+            </h3>
+            <h3 className="mx-2 mb-2 flex flex-row">
+              <MdQuiz
+                size={24}
+                className="text-text-100 mr-2 bg-primary-100 rounded-full"
+              />{" "}
+              <span className="font-bold">
+                {competitionState.problem_nr}/{competitionState.total_problems}
+              </span>
+            </h3>
+            <div className="px-2 flex flex-row w-full justify-between mt-2">
+              <div className="flex flex-row mt-1">
+                <h3 className="">
+                  <MdHelpCenter
+                    size={24}
+                    className="text-text-100 mr-2 bg-primary-100 rounded-full"
+                  />
+                </h3>
+                <h3 className="font-bold">
+                  {competitionState.problem_data.name}
+                </h3>
+              </div>
+              <div className="">
+                <button
+                  className="rounded-lg bg-primary-100 hover:bg-primary-200 p-1 w-20
+            drop-shadow flex flex-row justify-center"
+                >
+                  <MdQuiz
+                    size={24}
+                    className="text-text-100 mr-2 bg-primary-100 rounded-full"
+                  />
+                  Info
+                </button>
+              </div>
+            </div>
           </div>
 
           <Timer timelimit="24000" />
-          <div className="bg-nightsky-950 py-2 my-1">
-            <h3 className="text-light text-center">Attempt-Counter</h3>
+          <div className="bg-bg-200 drop-shadow rounded-lg my-4 py-1">
+            <h3 className="text-text-100 text-center font-header">
+              Attempt-Counter
+            </h3>
             <div className="flex justify-evenly my-4">
-              <button className="bg-acc-600 hover:bg-acc-400 text-light font-body font-bold w-16 h-16 p-3 rounded-full">
+              <button className="bg-primary-100 hover:bg-primary-200 text-text-100 text-2xl font-body font-bold w-16 h-16 p-3 rounded-full">
                 +
               </button>
               <p className="text-center text-6xl text-light">1</p>
-              <button className="bg-acc-800 hover:bg-acc-400 text-light font-body font-bold w-16 h-16 p-3 rounded-full">
+              <button className="bg-primary-100 hover:bg-primary-200 text-text-100 text-2xl font-body font-bold w-16 h-16 p-3 rounded-full">
                 -
               </button>
             </div>
             <div className="flex justify-evenly my-8">
-              <button className="bg-acc-800 hover:bg-acc-400 text-light font-body font-bold w-28 h-20 p-3 rounded-lg">
+              <button className="bg-primary-100 hover:bg-primary-200 text-text-100  font-body font-bold w-28 h-20 p-3 rounded-lg">
                 Top
               </button>
-              <button className="bg-acc-800 hover:bg-acc-400 text-light font-body font-bold w-28 h-20 p-3 rounded-lg">
+              <button className="bg-primary-100 hover:bg-primary-200 text-text-100 font-body font-bold w-28 h-20 p-3 rounded-lg">
                 Zone
               </button>
             </div>
-            <div className="mx-6">
-              <button className="bg-acc-600 hover:bg-acc-400 text-light font-body font-bold w-full h-20 p-3 rounded-lg">
+            <div className="flex justify-center pb-3">
+              <button className="bg-primary-100 hover:bg-primary-200 text-light font-body font-bold w-72 h-20 p-3 rounded-lg">
                 Submit
               </button>
             </div>
@@ -104,6 +162,9 @@ function PointsPanel() {
         </div>
       ) : (
         <h1>LOADING</h1>
+      )}
+      {showScoreboard && (
+        <div className="absolute top-0 left-0 border w-full h-full backdrop-blur-sm"></div>
       )}
     </div>
   );
