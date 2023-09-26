@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 function Timer(props) {
-  const [time, setTime] = useState(props.timelimit);
+  const [time, setTime] = useState(props.timelimit * 100);
   const [resetCounter, setResetCounter] = useState(0);
   const [timeMessage, setTimeMessage] = useState("");
 

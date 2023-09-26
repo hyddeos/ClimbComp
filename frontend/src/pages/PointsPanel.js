@@ -4,6 +4,7 @@ import Timer from "../components/Timer";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../constants";
 import Scoreboard from "../components/Scoreboard";
+import ProblemInfo from "../components/ProblemInfo";
 import {
   MdArrowBack,
   MdScoreboard,
@@ -19,6 +20,7 @@ function PointsPanel() {
   const compId = searchParams.get("id");
 
   const [showScoreboard, setShowScoreboard] = useState(false);
+  const [showProblemInfo, setShowProblemInfo] = useState(false);
   const [competitionState, setCompetitionState] = useState(null);
   const [attempts, setAttempts] = useState(1);
   const [zone, setZone] = useState(false);
@@ -32,6 +34,13 @@ function PointsPanel() {
       setShowScoreboard(false);
     } else {
       setShowScoreboard(true);
+    }
+  }
+  function toggleProblemInfo() {
+    if (showProblemInfo) {
+      setShowProblemInfo(false);
+    } else {
+      setShowProblemInfo(true);
     }
   }
 
@@ -78,6 +87,12 @@ function PointsPanel() {
               showScoreboard={setShowScoreboard}
             />
           )}
+          {showProblemInfo && (
+            <ProblemInfo
+              problemData={competitionState.problem_data}
+              showProblem={setShowProblemInfo}
+            />
+          )}
           <div className="m-auto w-2/3">
             <h1 className="text-3xl capitalize text-center font-header font-bold text-accent-200 p-4 text-ellipsis overflow-hidden">
               {competitionState.competition_title}
@@ -118,6 +133,7 @@ function PointsPanel() {
               </div>
               <div className="">
                 <button
+                  onClick={() => toggleProblemInfo()}
                   className="rounded-lg bg-primary-100 hover:bg-primary-200 p-1 w-20
             drop-shadow flex flex-row justify-center"
                 >
@@ -131,7 +147,7 @@ function PointsPanel() {
             </div>
           </div>
 
-          <Timer timelimit="24000" />
+          <Timer timelimit={competitionState.problem_data.timelimit} />
           <div className="bg-bg-200 drop-shadow rounded-lg my-4 py-1">
             <h3 className="text-text-100 text-center font-header">
               Attempt-Counter
@@ -163,7 +179,7 @@ function PointsPanel() {
       ) : (
         <h1>LOADING</h1>
       )}
-      {showScoreboard && (
+      {(showScoreboard || showProblemInfo) && (
         <div className="absolute top-0 left-0 border w-full h-full backdrop-blur-sm"></div>
       )}
     </div>
