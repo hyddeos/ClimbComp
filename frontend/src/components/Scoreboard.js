@@ -1,7 +1,14 @@
 import React from "react";
 
 function Scoreboard(props) {
-  const sortedScore = [...props.scoredata].sort((a, b) => b.score - a.score);
+  const sortedScore = [...props.scoredata].sort((a, b) => {
+    if (b.score === a.score) {
+      // If scores are equal, compare attempts
+      return a.attempts - b.attempts;
+    }
+    // Otherwise, compare scores
+    return b.score - a.score;
+  });
 
   return (
     <div
@@ -24,7 +31,8 @@ function Scoreboard(props) {
             <tr>
               <th className="text-left">Rank</th>
               <th className="text-left">Competitor</th>
-              <th className="text-right">Problems</th>
+              <th className="text-right">Probs</th>
+              <th className="text-right">Trys</th>
               <th className="text-right">Score</th>
             </tr>
           </thead>
@@ -33,8 +41,9 @@ function Scoreboard(props) {
               <tr key={index} className="text-left">
                 <td className="text-left pl-4">{index + 1}</td>
                 <td>{item.competitor}</td>
-                <td className="text-right pr-6">{item.problems}</td>
-                <td className="text-right pr-4">{item.score}</td>
+                <td className="text-center pr-6">{item.problems}</td>
+                <td className="text-center pr-6">{item.attempts}</td>
+                <td className="text-center pr-4">{item.score}</td>
               </tr>
             ))}
           </tbody>

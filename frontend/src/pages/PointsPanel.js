@@ -28,6 +28,7 @@ function PointsPanel() {
   const [time, setTime] = useState(0);
 
   console.log("compid", competitionState);
+  console.log("TOp", top, "Zone", zone);
 
   function toggleScoreboard() {
     if (showScoreboard) {
@@ -41,6 +42,13 @@ function PointsPanel() {
       setShowProblemInfo(false);
     } else {
       setShowProblemInfo(true);
+    }
+  }
+  function topAndZoneToggle(type) {
+    if (type === "top") {
+      top ? setTop(false) : setTop(true);
+    } else {
+      zone ? setZone(false) : setZone(true);
     }
   }
 
@@ -153,21 +161,39 @@ function PointsPanel() {
               Attempt-Counter
             </h3>
             <div className="flex justify-evenly my-4">
-              <button className="bg-primary-100 hover:bg-primary-200 text-text-100 text-2xl font-body font-bold w-16 h-16 p-3 rounded-full">
+              <button
+                onClick={() => setAttempts(attempts + 1)}
+                className="bg-primary-100 hover:bg-primary-200 text-text-100 text-2xl font-body font-bold w-16 h-16 p-3 rounded-full"
+              >
                 +
               </button>
-              <p className="text-center text-6xl text-light">1</p>
-              <button className="bg-primary-100 hover:bg-primary-200 text-text-100 text-2xl font-body font-bold w-16 h-16 p-3 rounded-full">
+              <p className="text-center text-6xl text-light">{attempts}</p>
+              <button
+                onClick={() => setAttempts(attempts - 1)}
+                className="bg-primary-100 hover:bg-primary-200 text-text-100 text-2xl font-body font-bold w-16 h-16 p-3 rounded-full"
+              >
                 -
               </button>
             </div>
             <div className="flex justify-evenly my-8">
-              <button className="bg-primary-100 hover:bg-primary-200 text-text-100  font-body font-bold w-28 h-20 p-3 rounded-lg">
+              <button
+                onClick={() => topAndZoneToggle("top")}
+                className={`${
+                  top ? "bg-succes" : "bg-primary-100"
+                } hover:bg-primary-200 text-text-100 font-body font-bold w-28 h-20 p-3 rounded-lg`}
+              >
                 Top
               </button>
-              <button className="bg-primary-100 hover:bg-primary-200 text-text-100 font-body font-bold w-28 h-20 p-3 rounded-lg">
-                Zone
-              </button>
+              {competitionState.problem_data.zonepoints != 0 && (
+                <button
+                  onClick={() => topAndZoneToggle("zone")}
+                  className={`${
+                    zone ? "bg-succes" : "bg-primary-100"
+                  } hover:bg-primary-200 text-text-100 font-body font-bold w-28 h-20 p-3 rounded-lg`}
+                >
+                  Zone
+                </button>
+              )}
             </div>
             <div className="flex justify-center pb-3">
               <button className="bg-primary-100 hover:bg-primary-200 text-light font-body font-bold w-72 h-20 p-3 rounded-lg">
@@ -185,5 +211,4 @@ function PointsPanel() {
     </div>
   );
 }
-
 export default PointsPanel;
