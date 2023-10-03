@@ -9,9 +9,11 @@ function Timer(props) {
 
   useEffect(() => {
     let intervalId;
-    if (isRunning) {
+    if (isRunning && time > 0) {
       // setting time from 0 to 1 every 10 milisecond using javascript setInterval method
       intervalId = setInterval(() => setTime(time - 1), 10);
+    } else {
+      setIsRunning(false);
     }
     return () => clearInterval(intervalId);
   }, [isRunning, time]);

@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { API_URL } from "../constants";
 import Scoreboard from "../components/Scoreboard";
 import ProblemInfo from "../components/ProblemInfo";
+import SubmitResults from "../components/SubmitResults";
+
 import {
   MdArrowBack,
   MdScoreboard,
@@ -21,6 +23,7 @@ function PointsPanel() {
 
   const [showScoreboard, setShowScoreboard] = useState(false);
   const [showProblemInfo, setShowProblemInfo] = useState(false);
+  const [showSubmitMenu, setShowSubmitMenu] = useState(false);
   const [competitionState, setCompetitionState] = useState(null);
   const [attempts, setAttempts] = useState(1);
   const [zone, setZone] = useState(false);
@@ -28,7 +31,6 @@ function PointsPanel() {
   const [time, setTime] = useState(0);
 
   console.log("compid", competitionState);
-  console.log("TOp", top, "Zone", zone);
 
   function toggleScoreboard() {
     if (showScoreboard) {
@@ -50,6 +52,9 @@ function PointsPanel() {
     } else {
       zone ? setZone(false) : setZone(true);
     }
+  }
+  function SubmitToggle() {
+    showSubmitMenu ? setShowSubmitMenu(false) : setShowSubmitMenu(true);
   }
 
   // GET
@@ -100,6 +105,9 @@ function PointsPanel() {
               problemData={competitionState.problem_data}
               showProblem={setShowProblemInfo}
             />
+          )}
+          {showSubmitMenu && (
+            <SubmitResults showSubmitMenu={setShowSubmitMenu} />
           )}
           <div className="m-auto w-2/3">
             <h1 className="text-3xl capitalize text-center font-header font-bold text-accent-200 p-4 text-ellipsis overflow-hidden">
@@ -196,7 +204,10 @@ function PointsPanel() {
               )}
             </div>
             <div className="flex justify-center pb-3">
-              <button className="bg-primary-100 hover:bg-primary-200 text-light font-body font-bold w-72 h-20 p-3 rounded-lg">
+              <button
+                onClick={() => SubmitToggle()}
+                className="bg-primary-100 hover:bg-primary-200 text-light font-body font-bold w-72 h-20 p-3 rounded-lg"
+              >
                 Submit
               </button>
             </div>
