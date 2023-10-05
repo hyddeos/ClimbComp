@@ -3,10 +3,8 @@ defmodule Climbcomp.Results do
   require Logger
 
   alias Climbcomp.Competitions
-  alias Climbcomp.Competition
   alias Climbcomp.Result
   alias Climbcomp.Repo
-  alias Climbcomp.Problem
   alias Climbcomp.Problems
 
   def save_result(params) do
@@ -19,39 +17,35 @@ defmodule Climbcomp.Results do
     # Called when a GET request is called from the Competition by ID
     competition_title = Competitions.get_competition_title(competition_id)
     competitors = Competitions.get_competitors(competition_id)
-
-    total_problems =
-      Competitions.get_challenge_id_for_competition(competition_id)
-      |> Problems.count_problems_in_challenge()
-
-    results =
-      Repo.all(
-        from(r in Result,
-          where: r.competition_id == ^competition_id,
-          order_by: [desc: r.inserted_at]
-        )
-      )
+    problems = Problems.get_all_problems_in_challenge(competition_id)
+    IO.inspect(problems, label: "inside load comp")
+    results = get_results(competition_id)
 
     case results do
       # Start the competition if no results if found
       [] ->
+        problem_data = get_current_problem(problems)
+
         %{
           competition_title: competition_title,
           competitor: List.first(competitors),
           problem_nr: 1,
-          total_problems: total_problems,
+          problem_data: problem_data,
+          total_problems: length(problems),
           scoreboard: get_scoreboard(competitors, results)
         }
 
       # Load data from an already started competition
       _ ->
         problem_nr = div(length(results), length(competitors)) + 1
+        problem_data = get_current_problem(problems, problem_nr)
 
         %{
           competition_title: competition_title,
           competitor: who_is_next_competitor(competitors, List.first(results)),
           problem_nr: problem_nr,
-          total_problems: total_problems,
+          problem_data: problem_data,
+          total_problems: length(problems),
           scoreboard: get_scoreboard(competitors, results)
         }
     end
@@ -61,25 +55,47 @@ defmodule Climbcomp.Results do
     # Called when a POST has been made with new results, this fetches the data for the next competitor
     competition_title = Competitions.get_competition_title(result_params["competition_id"])
     competitors = Competitions.get_competitors(result_params["competition_id"])
-    total_problems = Problems.count_problems_in_challenge(result_params["challenge_id"])
-
-    results =
-      Repo.all(from(r in Result, where: r.competition_id == ^result_params["competition_id"]))
+    problems = Problems.get_all_problems_in_challenge(result_params["competition_id"])
+    IO.inspect(problems, label: "inside NEXt comp")
+    results = get_results(result_params["competition_id"])
 
     problem_nr = div(length(results), length(competitors)) + 1
+
+    problem_data = get_current_problem(problems, problem_nr)
 
     %{
       competition_title: competition_title,
       competitor: who_is_next_competitor(competitors, List.first(results)),
       problem_nr: problem_nr,
-      total_problems: total_problems,
+      problem_data: problem_data,
+      total_problems: length(problems),
       scoreboard: get_scoreboard(competitors, results)
     }
+  end
 
-    Logger.info("Total Problems: #{total_problems} Competitors: #{competitors}
-      results: #{length(results)} , nr comp: #{length(competitors)}
-      problmenr: #{problem_nr + 1}
-      ")
+  defp get_results(competition_id) do
+    Repo.all(
+      from(r in Result,
+        where: r.competition_id == ^competition_id,
+        order_by: [desc: r.inserted_at]
+      )
+    )
+  end
+
+  defp get_current_problem(problems) do
+    List.last(problems)
+    |> build_problem_json()
+  end
+
+  defp get_current_problem(problems, problem_nr) do
+    case Enum.at(problems, problem_nr - 1) do
+      {:ok, problem} ->
+        problem
+        |> build_problem_json()
+
+      nil ->
+        {:error, "Problem not found"}
+    end
   end
 
   defp get_scoreboard(competitors, results) do
@@ -95,7 +111,7 @@ defmodule Climbcomp.Results do
   defp count_competitor_score(competitor, results) do
     case results do
       [] ->
-        %{competitor: competitor, score: 0, problems: 0}
+        %{competitor: competitor, score: 0, problems: 0, attempts: 0}
 
       _ ->
         problems_done =
@@ -112,7 +128,16 @@ defmodule Climbcomp.Results do
             end
           end)
 
-        %{competitor: competitor, score: score, problmes: problems_done}
+        attempts =
+          Enum.reduce(results, 0.0, fn result, accumulator ->
+            if result.competitor == competitor do
+              accumulator + result.attempts
+            else
+              accumulator
+            end
+          end)
+
+        %{competitor: competitor, score: score, attempts: attempts, problmes: problems_done}
     end
   end
 
@@ -127,5 +152,18 @@ defmodule Climbcomp.Results do
     else
       Enum.at(competitors, index_of_last_competitor + 1)
     end
+  end
+
+  defp build_problem_json(problem) do
+    %{
+      "id" => problem.id,
+      "name" => problem.name,
+      "position" => problem.position,
+      "grade" => problem.grade,
+      "timelimit" => problem.timelimit,
+      "toppoints" => problem.toppoints,
+      "zonepoints" => problem.zonepoints,
+      "type" => problem.type
+    }
   end
 end

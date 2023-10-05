@@ -105,7 +105,7 @@ function CreateNewChallenge() {
         <label className="text-text-100 font-semibold w-full">
           Name <span className="font-thin text-text-200">of the Challenge</span>
           <input
-            className="rounded-lg block my-1 mb-3 py-1 px-1 w-full border border-text-200"
+            className="rounded-lg block my-1 mb-3 py-1 px-1 w-full border border-text-200 border-opacity-25"
             placeholder="Challenge name"
             type="text"
             name="challengeName"
@@ -128,11 +128,11 @@ function CreateNewChallenge() {
             </span>
           </div>
         </div>
-        <form className="mt-2 p-4 rounded-lg border w-full">
+        <form className="mt-2 p-4 rounded-lg border border-text-200 border-opacity-50 w-full">
           <label className="text-light font-semibold w-full flex justify-between my-1">
             Name(Color)
             <input
-              className="rounded-lg text-nightsky-950 p-1 w-2/3"
+              className="rounded-lg p-1 w-2/3"
               placeholder="Name it"
               type="text"
               name="name"
@@ -145,7 +145,7 @@ function CreateNewChallenge() {
           <label className="text-light font-semibold w-full flex justify-between my-3">
             Type
             <select
-              className="rounded-lg w-2/3 p-1 text-nightsky-950"
+              className="rounded-lg w-2/3 p-1"
               name="type"
               value={newProblem.type}
               onChange={handleInputChange}
@@ -158,7 +158,7 @@ function CreateNewChallenge() {
           <label className="text-light font-semibold w-full flex justify-between my-3">
             Grade
             <input
-              className="rounded-lg text-nightsky-950 p-1 w-2/3"
+              className="rounded-lg p-1 w-2/3"
               placeholder="Problem grade"
               type="text"
               name="grade"
@@ -170,7 +170,7 @@ function CreateNewChallenge() {
           <label className="text-light font-semibold w-full flex justify-between my-1">
             Position
             <input
-              className="rounded-lg text-nightsky-950 p-1 w-2/3"
+              className="rounded-lg p-1 w-2/3"
               placeholder="Where is it located"
               type="text"
               name="position"
@@ -182,7 +182,7 @@ function CreateNewChallenge() {
           <label className="text-light font-semibold w-full flex justify-between my-3">
             Top Points
             <input
-              className="rounded-lg text-nightsky-950 p-1 w-2/3"
+              className="rounded-lg p-1 w-2/3"
               placeholder="Points for getting the top"
               type="number"
               name="toppoints"
@@ -194,7 +194,7 @@ function CreateNewChallenge() {
           <label className="text-light font-semibold w-full flex justify-between my-3">
             Zone Points
             <input
-              className="rounded-lg text-nightsky-950 p-1 w-2/3"
+              className="rounded-lg p-1 w-2/3"
               placeholder="Points for getting the top"
               type="number"
               name="zonepoints"
@@ -206,7 +206,7 @@ function CreateNewChallenge() {
           <label className="text-light font-semibold w-full flex justify-between my-3">
             Time Limit(sec)
             <input
-              className="rounded-lg text-nightsky-950 p-1 w-2/3"
+              className="rounded-lg p-1 w-2/3"
               placeholder="Time limit for problem"
               type="number"
               name="timelimit"
@@ -217,20 +217,21 @@ function CreateNewChallenge() {
           </label>
           <button
             onClick={addProblem}
-            className="bg-acc-600 hover:bg-acc-400 text-light font-body font-bold h-8 px-2 rounded-lg my-3"
+            className="rounded-lg bg-primary-100 hover:bg-primary-200 p-1 px-2 w-full font-semibold 
+            drop-shadow"
           >
             Add Problem
           </button>
         </form>
-      </div>
-
-      <div className="flex justify-center my-2">
-        <button
-          className="bg-acc-600 hover:bg-acc-400 text-light font-body font-bold w-28 h-20 p-3 rounded-lg"
-          onClick={handleSubmit}
-        >
-          Create Challenge
-        </button>
+        <div className="flex justify-center my-2">
+          <button
+            className="h-20 rounded-lg bg-primary-100 hover:bg-primary-200 my-4 px-2 w-full font-semibold 
+          drop-shadow"
+            onClick={handleSubmit}
+          >
+            Create Challenge
+          </button>
+        </div>
       </div>
     </>
   );

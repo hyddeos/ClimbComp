@@ -49,7 +49,6 @@ function HostMode() {
     localStorage.removeItem("authToken");
     setUserToken("");
   }
-  console.log("COMP:", competitions, "CHALL", challenges, "Token", userToken);
 
   return (
     <>

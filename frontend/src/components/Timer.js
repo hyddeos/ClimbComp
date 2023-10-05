@@ -14,6 +14,7 @@ function Timer(props) {
       intervalId = setInterval(() => setTime(time - 1), 10);
     } else {
       setIsRunning(false);
+      props.setSaveTime(time);
     }
     return () => clearInterval(intervalId);
   }, [isRunning, time]);
@@ -27,13 +28,13 @@ function Timer(props) {
   };
 
   const reset = () => {
-    if (resetCounter === 5) {
-      setTime(props.timelimit);
+    if (resetCounter === 3) {
+      setTime(props.timelimit * 100);
       setTimeMessage("");
       setResetCounter(0);
     } else {
       setResetCounter(resetCounter + 1);
-      setTimeMessage("Press Reset-button 5 times to reset");
+      setTimeMessage("Press Reset-button 3 times to reset");
     }
   };
   return (

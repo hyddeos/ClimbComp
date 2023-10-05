@@ -16,7 +16,6 @@ defmodule ClimbcompWeb.ResultController do
 
   def create(conn, %{"result" => result_params}) do
     competition_id = result_params["competition_id"]
-    Logger.info("Competition ID: #{competition_id}")
 
     case Results.save_result(result_params) do
       {:ok, %Result{} = _result} ->

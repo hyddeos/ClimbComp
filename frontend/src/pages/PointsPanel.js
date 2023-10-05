@@ -30,7 +30,7 @@ function PointsPanel() {
   const [top, setTop] = useState(false);
   const [time, setTime] = useState(0);
 
-  console.log("compid", competitionState);
+  console.log("compid", competitionState, "time", time);
 
   function toggleScoreboard() {
     if (showScoreboard) {
@@ -107,7 +107,18 @@ function PointsPanel() {
             />
           )}
           {showSubmitMenu && (
-            <SubmitResults showSubmitMenu={setShowSubmitMenu} />
+            <SubmitResults
+              showSubmitMenu={setShowSubmitMenu}
+              problemData={competitionState.problem_data}
+              attempts={attempts}
+              setAttempts={setAttempts}
+              zone={zone}
+              setZone={setZone}
+              top={top}
+              setTop={setTop}
+              time={time}
+              setTime={setTime}
+            />
           )}
           <div className="m-auto w-2/3">
             <h1 className="text-3xl capitalize text-center font-header font-bold text-accent-200 p-4 text-ellipsis overflow-hidden">
@@ -163,7 +174,10 @@ function PointsPanel() {
             </div>
           </div>
 
-          <Timer timelimit={competitionState.problem_data.timelimit} />
+          <Timer
+            timelimit={competitionState.problem_data.timelimit}
+            setSaveTime={setTime}
+          />
           <div className="bg-bg-200 drop-shadow rounded-lg my-4 py-1">
             <h3 className="text-text-100 text-center font-header">
               Attempt-Counter
@@ -192,7 +206,7 @@ function PointsPanel() {
               >
                 Top
               </button>
-              {competitionState.problem_data.zonepoints != 0 && (
+              {competitionState.problem_data.zonepoints !== 0 && (
                 <button
                   onClick={() => topAndZoneToggle("zone")}
                   className={`${
@@ -216,7 +230,7 @@ function PointsPanel() {
       ) : (
         <h1>LOADING</h1>
       )}
-      {(showScoreboard || showProblemInfo) && (
+      {(showScoreboard || showProblemInfo || showSubmitMenu) && (
         <div className="absolute top-0 left-0 border w-full h-full backdrop-blur-sm"></div>
       )}
     </div>
