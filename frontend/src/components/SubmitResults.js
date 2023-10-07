@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { API_URL } from "../constants";
 
 function SubmitResults(props) {
   console.log("results", props);
@@ -19,9 +20,38 @@ function SubmitResults(props) {
     }
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("SUBMITTING");
+
+    const result = {
+      competitor: props.competitor,
+      challenge_id: props.challenge_id,
+      competition_id: props.competition_id,
+      problem_id: props.problemData.id,
+      points: editedPoints,
+      time: editedTime,
+      attempts: editedAttempts,
+    };
+
+    try {
+      const authToken = localStorage.getItem("authToken");
+      const response = await fetch(`${API_URL}/api/result`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({ result: result }),
+      });
+      console.log("respone", response);
+      if (response.ok) {
+        console.log("Succes", response);
+      }
+    } catch (error) {
+      console.error("Error", error);
+      localStorage.removeItem("authToken");
+    }
+    console.log("SUBMITTING", result);
   };
 
   return (

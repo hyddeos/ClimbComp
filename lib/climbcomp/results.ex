@@ -17,6 +17,7 @@ defmodule Climbcomp.Results do
     # Called when a GET request is called from the Competition by ID
     competition_title = Competitions.get_competition_title(competition_id)
     competitors = Competitions.get_competitors(competition_id)
+    challenge_id = Competitions.get_challenge_id_for_competition(competition_id)
     problems = Problems.get_all_problems_in_challenge(competition_id)
     IO.inspect(problems, label: "inside load comp")
     results = get_results(competition_id)
@@ -28,6 +29,8 @@ defmodule Climbcomp.Results do
 
         %{
           competition_title: competition_title,
+          competition_id: competition_id,
+          challenge_id: challenge_id,
           competitor: List.first(competitors),
           problem_nr: 1,
           problem_data: problem_data,
@@ -42,6 +45,8 @@ defmodule Climbcomp.Results do
 
         %{
           competition_title: competition_title,
+          competition_id: competition_id,
+          challenge_id: challenge_id,
           competitor: who_is_next_competitor(competitors, List.first(results)),
           problem_nr: problem_nr,
           problem_data: problem_data,
@@ -55,6 +60,7 @@ defmodule Climbcomp.Results do
     # Called when a POST has been made with new results, this fetches the data for the next competitor
     competition_title = Competitions.get_competition_title(result_params["competition_id"])
     competitors = Competitions.get_competitors(result_params["competition_id"])
+    challenge_id = Competitions.get_challenge_id_for_competition(result_params["competition_id"])
     problems = Problems.get_all_problems_in_challenge(result_params["competition_id"])
     IO.inspect(problems, label: "inside NEXt comp")
     results = get_results(result_params["competition_id"])
@@ -65,6 +71,8 @@ defmodule Climbcomp.Results do
 
     %{
       competition_title: competition_title,
+      competition_id: result_params["competition_id"],
+      challenge_id: challenge_id,
       competitor: who_is_next_competitor(competitors, List.first(results)),
       problem_nr: problem_nr,
       problem_data: problem_data,

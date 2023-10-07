@@ -110,6 +110,10 @@ function PointsPanel() {
             <SubmitResults
               showSubmitMenu={setShowSubmitMenu}
               problemData={competitionState.problem_data}
+              competitor={competitionState.competitor}
+              challenge_id={competitionState.challenge_id}
+              competition_id={competitionState.competition_id}
+              problem_id={competitionState.problem_id}
               attempts={attempts}
               setAttempts={setAttempts}
               zone={zone}
