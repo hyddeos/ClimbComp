@@ -23,6 +23,23 @@ defmodule ClimbcompWeb.CompetitionController do
     end
   end
 
+  def delete(conn, %{"id" => id}) do
+    # Assuming you have a function to delete a challenge by its id
+    case ClimbcompWeb.delete_competiton(id) do
+      {:ok, _deleted_challenge} ->
+        conn
+        # Return a 204 No Content status
+        |> put_status(:no_content)
+        |> render(:deleted)
+
+      {:error, _reason} ->
+        conn
+        # Return a 422 Unprocessable Entity status or another appropriate status code
+        |> put_status(:unprocessable_entity)
+        |> render("error.json", error: "Failed to delete challenge")
+    end
+  end
+
   def connect(_conn, _token, _params), do: :error
 
   defp build_competitions_json(competitions) do

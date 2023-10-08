@@ -5,6 +5,7 @@ defmodule Climbcomp.Competition do
   schema "competition" do
     field :name, :string
     field :competitors, {:array, :string}
+    field :completed, :boolean, default: false
 
     belongs_to :challenge, Climbcomp.Challenge
 
@@ -13,7 +14,7 @@ defmodule Climbcomp.Competition do
     timestamps()
   end
 
-  @required_fields ~w(name challenge_id competitors)a
+  @required_fields ~w(name challenge_id competitors completed)a
 
   def changeset(competition, attrs) do
     competition

@@ -6,7 +6,7 @@ defmodule Climbcomp.Result do
     field :competitor, :string
     field :points, :float
     field :time, :integer
-    field :attemps, :integer
+    field :attempts, :integer
 
     belongs_to :competition, Climbcomp.Competition
     belongs_to :challenge, Climbcomp.Challenge
@@ -15,7 +15,7 @@ defmodule Climbcomp.Result do
     timestamps()
   end
 
-  @required_fields ~w(competitor points competition_id challenge_id problem_id)a
+  @required_fields ~w(competitor points competition_id challenge_id problem_id time attempts)a
 
   def changeset(result, attrs) do
     result

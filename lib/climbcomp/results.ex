@@ -17,9 +17,10 @@ defmodule Climbcomp.Results do
     # Called when a GET request is called from the Competition by ID
     competition_title = Competitions.get_competition_title(competition_id)
     competitors = Competitions.get_competitors(competition_id)
+    completed_status = Competitions.check_completed_status(competition_id)
+    IO.inspect(completed_status, label: "----3---- Completed")
     challenge_id = Competitions.get_challenge_id_for_competition(competition_id)
     problems = Problems.get_all_problems_in_challenge(competition_id)
-    IO.inspect(problems, label: "inside load comp")
     results = get_results(competition_id)
 
     case results do
@@ -28,6 +29,7 @@ defmodule Climbcomp.Results do
         problem_data = get_current_problem(problems)
 
         %{
+          completed: completed_status,
           competition_title: competition_title,
           competition_id: competition_id,
           challenge_id: challenge_id,
@@ -42,8 +44,10 @@ defmodule Climbcomp.Results do
       _ ->
         problem_nr = div(length(results), length(competitors)) + 1
         problem_data = get_current_problem(problems, problem_nr)
+        IO.inspect(problem_nr, label: "----2---- Fel här?")
 
-        %{
+        results = %{
+          completed: completed_status,
           competition_title: competition_title,
           competition_id: competition_id,
           challenge_id: challenge_id,
@@ -53,16 +57,18 @@ defmodule Climbcomp.Results do
           total_problems: length(problems),
           scoreboard: get_scoreboard(competitors, results)
         }
+
+        {:ok, results}
     end
   end
 
   def get_next_competitor_data(result_params) do
     # Called when a POST has been made with new results, this fetches the data for the next competitor
     competition_title = Competitions.get_competition_title(result_params["competition_id"])
+    completed_status = Competitions.check_completed_status(result_params["competition_id"])
     competitors = Competitions.get_competitors(result_params["competition_id"])
     challenge_id = Competitions.get_challenge_id_for_competition(result_params["competition_id"])
     problems = Problems.get_all_problems_in_challenge(result_params["competition_id"])
-    IO.inspect(problems, label: "inside NEXt comp")
     results = get_results(result_params["competition_id"])
 
     problem_nr = div(length(results), length(competitors)) + 1
@@ -70,6 +76,7 @@ defmodule Climbcomp.Results do
     problem_data = get_current_problem(problems, problem_nr)
 
     %{
+      completed: completed_status,
       competition_title: competition_title,
       competition_id: result_params["competition_id"],
       challenge_id: challenge_id,
@@ -91,15 +98,17 @@ defmodule Climbcomp.Results do
   end
 
   defp get_current_problem(problems) do
+    # when there is no previous results
     List.last(problems)
     |> build_problem_json()
   end
 
   defp get_current_problem(problems, problem_nr) do
+    # when there is previous results
     case Enum.at(problems, problem_nr - 1) do
-      {:ok, problem} ->
-        problem
-        |> build_problem_json()
+      problem = %Climbcomp.Problem{} ->
+        result = build_problem_json(problem)
+        result
 
       nil ->
         {:error, "Problem not found"}

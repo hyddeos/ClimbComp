@@ -43,9 +43,11 @@ defmodule ClimbcompWeb.Router do
 
     post "/challenge", ChallengeController, :create
     get "/challenge", ChallengeController, :index
+    delete "/challenge/:id", ChallengeController, :delete
 
     post "/competition", CompetitionController, :create
     get "/competition", CompetitionController, :index
+    delete "/competition/:id", CompetitionController, :delete
 
     post "/result", ResultController, :create
     get "/result/:id", ResultController, :index

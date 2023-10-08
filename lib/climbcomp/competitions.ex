@@ -15,6 +15,14 @@ defmodule Climbcomp.Competitions do
     |> Repo.all()
   end
 
+  def check_completed_status(competition_id) do
+    from(c in Climbcomp.Competition,
+      where: c.id == ^competition_id,
+      select: c.completed
+    )
+    |> Repo.one()
+  end
+
   def get_challenge_id_for_competition(competition_id) do
     from(c in Climbcomp.Competition,
       where: c.id == ^competition_id,

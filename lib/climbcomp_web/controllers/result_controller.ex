@@ -6,8 +6,8 @@ defmodule ClimbcompWeb.ResultController do
   alias Climbcomp.Results
 
   def index(conn, %{"id" => id}) do
-    results = Results.load_competition(id)
-    IO.inspect(results, label: "Results To Return Back To Json")
+    {:ok, results} = Results.load_competition(id)
+    IO.inspect(results, label: "----1---- inne i results")
 
     conn
     |> put_status(200)
@@ -15,11 +15,10 @@ defmodule ClimbcompWeb.ResultController do
   end
 
   def create(conn, %{"result" => result_params}) do
-    competition_id = result_params["competition_id"]
-
     case Results.save_result(result_params) do
       {:ok, %Result{} = _result} ->
         next_competitor_data = Results.get_next_competitor_data(result_params)
+        IO.inspect(next_competitor_data, label: "----1---- Next competitor data in create")
 
         conn
         |> put_status(:created)
