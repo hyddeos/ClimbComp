@@ -114,13 +114,9 @@ function PointsPanel() {
               challenge_id={competitionState.challenge_id}
               competition_id={competitionState.competition_id}
               attempts={attempts}
-              setAttempts={setAttempts}
               zone={zone}
-              setZone={setZone}
               top={top}
-              setTop={setTop}
               time={time}
-              setTime={setTime}
             />
           )}
           <div className="m-auto w-2/3">

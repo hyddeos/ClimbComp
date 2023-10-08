@@ -6,8 +6,9 @@ function SubmitResults(props) {
 
   const [editedAttempts, setEditedAttempts] = useState(props.attempts);
   const [editedPoints, setEditedPoints] = useState(0);
+  const calculatedTime = props.problemData.timelimit * 100 - props.time;
   const [editedTime, setEditedTime] = useState(
-    props.problemData.timelimit * 100 - props.time
+    calculatedTime === 0 ? props.problemData.timelimit * 100 : calculatedTime
   );
 
   useEffect(() => {
