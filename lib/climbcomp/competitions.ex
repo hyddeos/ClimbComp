@@ -15,6 +15,11 @@ defmodule Climbcomp.Competitions do
     |> Repo.all()
   end
 
+  def set_competition_as_completed(competition_id) do
+    competition = Repo.get(Climbcomp.Competition, competition_id)
+    Ecto.Changeset.change(competition, completed: true)
+  end
+
   def check_completed_status(competition_id) do
     from(c in Climbcomp.Competition,
       where: c.id == ^competition_id,

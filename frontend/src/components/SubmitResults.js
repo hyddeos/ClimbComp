@@ -11,6 +11,22 @@ function SubmitResults(props) {
     calculatedTime === 0 ? props.problemData.timelimit * 100 : calculatedTime
   );
 
+  const lastResult = (e) => {
+    // Check if the competion is over after this competitor
+    if (props.current_problem === props.total_problems) {
+      let notDoneLastProblem = 0;
+      props.scoredata.forEach((competitor) => {
+        if (competitor.problems < props.total_problems) {
+          notDoneLastProblem++;
+        }
+      });
+      if (notDoneLastProblem === 1) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   useEffect(() => {
     if (props.top) {
       setEditedPoints(props.problemData.toppoints);
@@ -23,6 +39,7 @@ function SubmitResults(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("What LastResult is:,", lastResult());
 
     const result = {
       competitor: props.competitor,
@@ -32,6 +49,7 @@ function SubmitResults(props) {
       points: editedPoints,
       time: editedTime,
       attempts: editedAttempts,
+      last_result: lastResult(),
     };
 
     try {
@@ -45,6 +63,7 @@ function SubmitResults(props) {
         body: JSON.stringify({ result: result }),
       });
       console.log("respone", response);
+
       if (response.ok) {
         console.log("Succes", response);
       }
@@ -52,7 +71,7 @@ function SubmitResults(props) {
       console.error("Error", error);
       localStorage.removeItem("authToken");
     }
-    console.log("SUBMITTING", result);
+    console.log("SUBMITTING", { result: result });
   };
 
   return (

@@ -28,7 +28,7 @@ defmodule Climbcomp.Results do
       [] ->
         problem_data = get_current_problem(problems)
 
-        %{
+        results = %{
           completed: completed_status,
           competition_title: competition_title,
           competition_id: competition_id,
@@ -42,23 +42,38 @@ defmodule Climbcomp.Results do
 
       # Load data from an already started competition
       _ ->
-        problem_nr = div(length(results), length(competitors)) + 1
-        problem_data = get_current_problem(problems, problem_nr)
-        IO.inspect(problem_nr, label: "----2---- Fel här?")
+        if completed_status do
+          results = %{
+            completed: completed_status,
+            competition_title: competition_title,
+            competition_id: competition_id,
+            challenge_id: challenge_id,
+            competitor: "Competition Over",
+            problem_nr: 0,
+            problem_data: "",
+            total_problems: length(problems),
+            scoreboard: get_scoreboard(competitors, results)
+          }
 
-        results = %{
-          completed: completed_status,
-          competition_title: competition_title,
-          competition_id: competition_id,
-          challenge_id: challenge_id,
-          competitor: who_is_next_competitor(competitors, List.first(results)),
-          problem_nr: problem_nr,
-          problem_data: problem_data,
-          total_problems: length(problems),
-          scoreboard: get_scoreboard(competitors, results)
-        }
+          {:ok, results}
+        else
+          problem_nr = div(length(results), length(competitors)) + 1
+          problem_data = get_current_problem(problems, problem_nr)
 
-        {:ok, results}
+          results = %{
+            completed: completed_status,
+            competition_title: competition_title,
+            competition_id: competition_id,
+            challenge_id: challenge_id,
+            competitor: who_is_next_competitor(competitors, List.first(results)),
+            problem_nr: problem_nr,
+            problem_data: problem_data,
+            total_problems: length(problems),
+            scoreboard: get_scoreboard(competitors, results)
+          }
+
+          {:ok, results}
+        end
     end
   end
 
@@ -71,21 +86,34 @@ defmodule Climbcomp.Results do
     problems = Problems.get_all_problems_in_challenge(result_params["competition_id"])
     results = get_results(result_params["competition_id"])
 
-    problem_nr = div(length(results), length(competitors)) + 1
+    if completed_status do
+      %{
+        completed: completed_status,
+        competition_title: competition_title,
+        competition_id: result_params["competition_id"],
+        challenge_id: challenge_id,
+        competitor: "Competition Over",
+        problem_nr: 0,
+        problem_data: "",
+        total_problems: length(problems),
+        scoreboard: get_scoreboard(competitors, results)
+      }
+    else
+      problem_nr = div(length(results), length(competitors)) + 1
+      problem_data = get_current_problem(problems, problem_nr)
 
-    problem_data = get_current_problem(problems, problem_nr)
-
-    %{
-      completed: completed_status,
-      competition_title: competition_title,
-      competition_id: result_params["competition_id"],
-      challenge_id: challenge_id,
-      competitor: who_is_next_competitor(competitors, List.first(results)),
-      problem_nr: problem_nr,
-      problem_data: problem_data,
-      total_problems: length(problems),
-      scoreboard: get_scoreboard(competitors, results)
-    }
+      %{
+        completed: completed_status,
+        competition_title: competition_title,
+        competition_id: result_params["competition_id"],
+        challenge_id: challenge_id,
+        competitor: who_is_next_competitor(competitors, List.first(results)),
+        problem_nr: problem_nr,
+        problem_data: problem_data,
+        total_problems: length(problems),
+        scoreboard: get_scoreboard(competitors, results)
+      }
+    end
   end
 
   defp get_results(competition_id) do
@@ -154,7 +182,7 @@ defmodule Climbcomp.Results do
             end
           end)
 
-        %{competitor: competitor, score: score, attempts: attempts, problmes: problems_done}
+        %{competitor: competitor, score: score, attempts: attempts, problems: problems_done}
     end
   end
 
@@ -164,7 +192,11 @@ defmodule Climbcomp.Results do
     index_of_last_competitor =
       Enum.find_index(competitors, fn comp -> comp == last_competitor end)
 
-    if index_of_last_competitor == length(competitors) do
+    IO.inspect(last_competitor, label: "----1---- Last Comp")
+    IO.inspect(index_of_last_competitor, label: "----2---- index")
+    IO.inspect(length(competitors), label: "----3---- lenght")
+
+    if index_of_last_competitor == length(competitors) - 1 do
       List.first(competitors)
     else
       Enum.at(competitors, index_of_last_competitor + 1)

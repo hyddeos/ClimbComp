@@ -21,6 +21,5 @@ defmodule Climbcomp.Result do
     result
     |> cast(attrs, @required_fields)
     |> validate_required(@required_fields)
-    |> IO.inspect()
   end
 end

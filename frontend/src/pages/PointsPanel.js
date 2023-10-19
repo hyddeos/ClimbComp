@@ -113,6 +113,9 @@ function PointsPanel() {
               competitor={competitionState.competitor}
               challenge_id={competitionState.challenge_id}
               competition_id={competitionState.competition_id}
+              total_problems={competitionState.total_problems}
+              current_problem={competitionState.problem_nr}
+              scoredata={competitionState.scoreboard.competitors_scores}
               attempts={attempts}
               zone={zone}
               top={top}

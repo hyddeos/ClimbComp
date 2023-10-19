@@ -37,9 +37,8 @@ function ListCompetitions(props) {
       </div>
       {props.competitions &&
         props.competitions.map((competition, index) => (
-          <div className="flex flex-row w-full">
+          <div key={index} className="flex flex-row w-full ">
             <div
-              key={index}
               className="flex w-full my-4 py-2 hover:bg-primary-200 border-l-4 border-accent-200 bg-primary-100 drop-shadow rounded-r-lg justify-between"
               onClick={() => navigate(`/competition/?id=${competition.id}`)}
             >
