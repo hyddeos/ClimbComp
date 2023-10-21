@@ -27,6 +27,17 @@ function Timer(props) {
     setIsRunning(!isRunning);
   };
 
+  const resetTimer = () => {
+    setTime(props.timelimit * 100);
+    props.setNewCompetitor(false);
+  };
+
+  useEffect(() => {
+    if (props.newCompetitor) {
+      resetTimer();
+    }
+  }, [props.newCompetitor]);
+
   const reset = () => {
     if (resetCounter === 3) {
       setTime(props.timelimit * 100);
@@ -36,6 +47,9 @@ function Timer(props) {
       setResetCounter(resetCounter + 1);
       setTimeMessage("Press Reset-button 3 times to reset");
     }
+  };
+  const resetTimerNewCompetitor = () => {
+    setTime(props.timelimit * 100);
   };
   return (
     <div className="bg-bg-200 drop-shadow rounded-lg mt-2 py-1">

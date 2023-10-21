@@ -62,16 +62,15 @@ function SubmitResults(props) {
         },
         body: JSON.stringify({ result: result }),
       });
-      console.log("respone", response);
 
       if (response.ok) {
-        console.log("Succes", response);
+        props.onUpdateData();
+        props.showSubmitMenu(false);
       }
     } catch (error) {
       console.error("Error", error);
       localStorage.removeItem("authToken");
     }
-    console.log("SUBMITTING", { result: result });
   };
 
   return (

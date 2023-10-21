@@ -29,6 +29,7 @@ function PointsPanel() {
   const [zone, setZone] = useState(false);
   const [top, setTop] = useState(false);
   const [time, setTime] = useState(0);
+  const [resetTimer, setResetTimer] = useState(false);
 
   console.log("compid", competitionState, "time", time);
 
@@ -57,24 +58,32 @@ function PointsPanel() {
     showSubmitMenu ? setShowSubmitMenu(false) : setShowSubmitMenu(true);
   }
 
-  // GET
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${API_URL}/api/result/${compId}`);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const responseData = await response.json();
-        setCompetitionState(responseData);
-      } catch (error) {
-        console.error("Error:", error);
+  // GET data
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/result/${compId}`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
-    };
 
+      const responseData = await response.json();
+      setCompetitionState(responseData);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  // First load
+  useEffect(() => {
     fetchData();
   }, []);
+  // After result submition
+  const handleUpdateData = () => {
+    fetchData();
+    setAttempts(1);
+    setZone(false);
+    setTop(false);
+    setResetTimer(true);
+  };
 
   return (
     <div className="mx-6">
@@ -108,6 +117,7 @@ function PointsPanel() {
           )}
           {showSubmitMenu && (
             <SubmitResults
+              onUpdateData={handleUpdateData}
               showSubmitMenu={setShowSubmitMenu}
               problemData={competitionState.problem_data}
               competitor={competitionState.competitor}
@@ -179,6 +189,8 @@ function PointsPanel() {
           <Timer
             timelimit={competitionState.problem_data.timelimit}
             setSaveTime={setTime}
+            newCompetitor={resetTimer}
+            setNewCompetitor={setResetTimer}
           />
           <div className="bg-bg-200 drop-shadow rounded-lg my-4 py-1">
             <h3 className="text-text-100 text-center font-header">

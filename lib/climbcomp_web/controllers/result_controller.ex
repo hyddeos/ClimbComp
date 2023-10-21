@@ -21,7 +21,6 @@ defmodule ClimbcompWeb.ResultController do
           true ->
             Competitions.set_competition_as_completed(result_params["competition_id"])
             next_competitor_data = Results.get_next_competitor_data(result_params)
-            IO.inspect(next_competitor_data, label: "----1---- Next competitor data in create")
 
             conn
             |> put_status(:created)
@@ -29,7 +28,6 @@ defmodule ClimbcompWeb.ResultController do
 
           false ->
             next_competitor_data = Results.get_next_competitor_data(result_params)
-            IO.inspect(next_competitor_data, label: "----2---- Next competitor data in create")
 
             conn
             |> put_status(:created)
