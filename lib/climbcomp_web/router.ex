@@ -33,6 +33,7 @@ defmodule ClimbcompWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/:id", PageController, :show
   end
 
   scope "/api", ClimbcompWeb do

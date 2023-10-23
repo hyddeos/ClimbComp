@@ -21,19 +21,15 @@ defmodule Climbcomp.Competitions do
   end
 
   def check_completed_status(competition_id) do
-    from(c in Climbcomp.Competition,
-      where: c.id == ^competition_id,
-      select: c.completed
-    )
-    |> Repo.one()
+    compeition = Repo.get(Competition, competition_id)
+
+    compeition.completed
   end
 
   def get_challenge_id_for_competition(competition_id) do
-    from(c in Climbcomp.Competition,
-      where: c.id == ^competition_id,
-      select: c.challenge_id
-    )
-    |> Repo.one()
+    compeition = Repo.get(Competition, competition_id)
+
+    compeition.challenge_id
   end
 
   def get_competition_title(competition_id) do
@@ -58,5 +54,15 @@ defmodule Climbcomp.Competitions do
       _ ->
         IO.puts("No competitors found")
     end
+  end
+
+  def get_compeition!(compeition_id, options \\ []) do
+    Competition
+    |> Repo.get!(compeition_id)
+    |> Repo.preload(Keyword.get(options, :preload, []))
+  end
+
+  def delete_competition(%Competition{} = competition) do
+    Repo.delete(competition)
   end
 end

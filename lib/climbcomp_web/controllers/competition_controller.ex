@@ -24,13 +24,12 @@ defmodule ClimbcompWeb.CompetitionController do
   end
 
   def delete(conn, %{"id" => id}) do
+    compeition = Climbcomp.Competitions.get_compeition!(id)
     # Assuming you have a function to delete a challenge by its id
-    case ClimbcompWeb.delete_competiton(id) do
-      {:ok, _deleted_challenge} ->
-        conn
+    case Climbcomp.Competitions.delete_competition(compeition) do
+      {:ok, _deleted_compeition} ->
         # Return a 204 No Content status
-        |> put_status(:no_content)
-        |> render(:deleted)
+        send_resp(conn, :no_content, "")
 
       {:error, _reason} ->
         conn

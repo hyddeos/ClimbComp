@@ -63,6 +63,12 @@ function SubmitResults(props) {
         body: JSON.stringify({ result: result }),
       });
 
+      if (response.ok && lastResult()) {
+        console.log("COMPEITION OVER!!11");
+        // COMPETITION OVER FUNKTION
+        return;
+      }
+
       if (response.ok) {
         props.onUpdateData();
         props.showSubmitMenu(false);

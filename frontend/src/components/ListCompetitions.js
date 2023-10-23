@@ -17,6 +17,7 @@ const deleteItem = (id) => {
         throw new Error("Failed to delete item");
       }
       // Handle success, e.g., update your UI or state
+      document.location.reload();
     })
     .catch((error) => {
       console.error("Error deleting item:", error);
@@ -37,9 +38,9 @@ function ListCompetitions(props) {
       </div>
       {props.competitions &&
         props.competitions.map((competition, index) => (
-          <div key={index} className="flex flex-row w-full ">
+          <div key={index} className="flex flex-row w-full">
             <div
-              className="flex w-full my-4 py-2 hover:bg-primary-200 border-l-4 border-accent-200 bg-primary-100 drop-shadow rounded-r-lg justify-between"
+              className="flex w-full my-4 py-2 pr-2 mr-2 hover:bg-primary-200 border-l-4 border-accent-200 bg-primary-100 drop-shadow rounded-r-lg justify-between"
               onClick={() => navigate(`/competition/?id=${competition.id}`)}
             >
               <div key={index} className="w-1/2 text-light px-2 font-semibold">
@@ -51,13 +52,10 @@ function ListCompetitions(props) {
                 </div>
               </div>
             </div>
-            <button
-              onClick={() => deleteItem(competition.id)}
-              className="w-1/5"
-            >
+            <button onClick={() => deleteItem(competition.id)}>
               <MdDeleteForever
                 size={24}
-                className="text-accent-200 m-auto mr-2"
+                className="text-accent-200 hover:text-accent-100 m-auto mr-2"
               />
             </button>
           </div>

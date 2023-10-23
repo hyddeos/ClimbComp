@@ -9,7 +9,7 @@ defmodule Climbcomp.Competition do
 
     belongs_to :challenge, Climbcomp.Challenge
 
-    has_many :result, Climbcomp.Result
+    has_many :result, Climbcomp.Result, on_delete: :delete_all
 
     timestamps()
   end

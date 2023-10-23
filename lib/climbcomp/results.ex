@@ -2,6 +2,7 @@ defmodule Climbcomp.Results do
   import Ecto.Query
   require Logger
 
+  alias Climbcomp.Competition
   alias Climbcomp.Competitions
   alias Climbcomp.Result
   alias Climbcomp.Repo
@@ -15,105 +16,72 @@ defmodule Climbcomp.Results do
 
   def load_competition(competition_id) do
     # Called when a GET request is called from the Competition by ID
-    competition_title = Competitions.get_competition_title(competition_id)
-    competitors = Competitions.get_competitors(competition_id)
-    completed_status = Competitions.check_completed_status(competition_id)
-    IO.inspect(completed_status, label: "----3---- Completed")
-    challenge_id = Competitions.get_challenge_id_for_competition(competition_id)
-    problems = Problems.get_all_problems_in_challenge(competition_id)
-    results = get_results(competition_id)
+    compeition =
+      Competitions.get_compeition!(competition_id,
+        preload: [:result, challenge: :problems]
+      )
 
-    case results do
+    case compeition.result do
       # Start the competition if no results if found
       [] ->
-        problem_data = get_current_problem(problems)
+        problem_data = get_current_problem(compeition.challenge.problems)
 
         results = %{
-          completed: completed_status,
-          competition_title: competition_title,
+          completed: compeition.completed,
+          competition_title: compeition.name,
           competition_id: competition_id,
-          challenge_id: challenge_id,
-          competitor: List.first(competitors),
+          challenge_id: compeition.challenge_id,
+          competitor: List.first(compeition.competitors),
           problem_nr: 1,
           problem_data: problem_data,
-          total_problems: length(problems),
-          scoreboard: get_scoreboard(competitors, results)
+          total_problems: length(compeition.challenge.problems),
+          scoreboard: get_scoreboard(compeition.competitors, compeition.result)
         }
+
+        {:ok, results}
 
       # Load data from an already started competition
       _ ->
-        if completed_status do
-          results = %{
-            completed: completed_status,
-            competition_title: competition_title,
-            competition_id: competition_id,
-            challenge_id: challenge_id,
-            competitor: "Competition Over",
-            problem_nr: 0,
-            problem_data: "",
-            total_problems: length(problems),
-            scoreboard: get_scoreboard(competitors, results)
-          }
+        problem_nr = div(length(compeition.result), length(compeition.competitors)) + 1
+        problem_data = get_current_problem(compeition.challenge.problems, problem_nr)
 
-          {:ok, results}
-        else
-          problem_nr = div(length(results), length(competitors)) + 1
-          problem_data = get_current_problem(problems, problem_nr)
+        results = %{
+          completed: compeition.completed,
+          competition_title: compeition.name,
+          competition_id: compeition.id,
+          challenge_id: compeition.challenge_id,
+          competitor:
+            who_is_next_competitor(compeition.competitors, List.first(compeition.result)),
+          problem_nr: problem_nr,
+          problem_data: problem_data,
+          total_problems: length(compeition.challenge.problems),
+          scoreboard: get_scoreboard(compeition.competitors, compeition.result)
+        }
 
-          results = %{
-            completed: completed_status,
-            competition_title: competition_title,
-            competition_id: competition_id,
-            challenge_id: challenge_id,
-            competitor: who_is_next_competitor(competitors, List.first(results)),
-            problem_nr: problem_nr,
-            problem_data: problem_data,
-            total_problems: length(problems),
-            scoreboard: get_scoreboard(competitors, results)
-          }
-
-          {:ok, results}
-        end
+        {:ok, results}
     end
   end
 
   def get_next_competitor_data(result_params) do
-    # Called when a POST has been made with new results, this fetches the data for the next competitor
-    competition_title = Competitions.get_competition_title(result_params["competition_id"])
-    completed_status = Competitions.check_completed_status(result_params["competition_id"])
-    competitors = Competitions.get_competitors(result_params["competition_id"])
-    challenge_id = Competitions.get_challenge_id_for_competition(result_params["competition_id"])
-    problems = Problems.get_all_problems_in_challenge(result_params["competition_id"])
-    results = get_results(result_params["competition_id"])
+    compeition =
+      Competitions.get_compeition!(result_params["competition_id"],
+        preload: [:result, challenge: :problems]
+      )
 
-    if completed_status do
-      %{
-        completed: completed_status,
-        competition_title: competition_title,
-        competition_id: result_params["competition_id"],
-        challenge_id: challenge_id,
-        competitor: "Competition Over",
-        problem_nr: 0,
-        problem_data: "",
-        total_problems: length(problems),
-        scoreboard: get_scoreboard(competitors, results)
-      }
-    else
-      problem_nr = div(length(results), length(competitors)) + 1
-      problem_data = get_current_problem(problems, problem_nr)
+    problem_nr = div(length(compeition.result), length(compeition.competitors)) + 1
+    problem_data = get_current_problem(compeition.challenge.problems, problem_nr)
 
-      %{
-        completed: completed_status,
-        competition_title: competition_title,
-        competition_id: result_params["competition_id"],
-        challenge_id: challenge_id,
-        competitor: who_is_next_competitor(competitors, List.first(results)),
-        problem_nr: problem_nr,
-        problem_data: problem_data,
-        total_problems: length(problems),
-        scoreboard: get_scoreboard(competitors, results)
-      }
-    end
+    %{
+      completed: compeition.completed,
+      competition_title: compeition.name,
+      competition_id: compeition.id,
+      challenge_id: compeition.challenge_id,
+      competitor: who_is_next_competitor(compeition.competitors, List.first(compeition.result)),
+      problem_nr: problem_nr,
+      problem_data: problem_data,
+      total_problems: length(compeition.challenge.problems),
+      scoreboard: get_scoreboard(compeition.competitors, compeition.result)
+    }
   end
 
   defp get_results(competition_id) do
@@ -139,7 +107,8 @@ defmodule Climbcomp.Results do
         result
 
       nil ->
-        {:error, "Problem not found"}
+        build_problem_json()
+        # Loads problem for when the competition is over
     end
   end
 
@@ -192,10 +161,6 @@ defmodule Climbcomp.Results do
     index_of_last_competitor =
       Enum.find_index(competitors, fn comp -> comp == last_competitor end)
 
-    IO.inspect(last_competitor, label: "----1---- Last Comp")
-    IO.inspect(index_of_last_competitor, label: "----2---- index")
-    IO.inspect(length(competitors), label: "----3---- lenght")
-
     if index_of_last_competitor == length(competitors) - 1 do
       List.first(competitors)
     else
@@ -213,6 +178,19 @@ defmodule Climbcomp.Results do
       "toppoints" => problem.toppoints,
       "zonepoints" => problem.zonepoints,
       "type" => problem.type
+    }
+  end
+
+  defp build_problem_json() do
+    %{
+      "id" => 0,
+      "name" => "competition over",
+      "position" => "competition over",
+      "grade" => "competition over",
+      "timelimit" => 0,
+      "toppoints" => 0,
+      "zonepoints" => 0,
+      "type" => "competition over"
     }
   end
 end
