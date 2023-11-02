@@ -50,8 +50,7 @@ defmodule Climbcomp.Results do
           competition_title: compeition.name,
           competition_id: compeition.id,
           challenge_id: compeition.challenge_id,
-          competitor:
-            who_is_next_competitor(compeition.competitors, List.first(compeition.result)),
+          competitor: who_is_next_competitor(compeition.competitors, compeition.result),
           problem_nr: problem_nr,
           problem_data: problem_data,
           total_problems: length(compeition.challenge.problems),
@@ -76,21 +75,12 @@ defmodule Climbcomp.Results do
       competition_title: compeition.name,
       competition_id: compeition.id,
       challenge_id: compeition.challenge_id,
-      competitor: who_is_next_competitor(compeition.competitors, List.first(compeition.result)),
+      competitor: who_is_next_competitor(compeition.competitors, compeition.result),
       problem_nr: problem_nr,
       problem_data: problem_data,
       total_problems: length(compeition.challenge.problems),
       scoreboard: get_scoreboard(compeition.competitors, compeition.result)
     }
-  end
-
-  defp get_results(competition_id) do
-    Repo.all(
-      from(r in Result,
-        where: r.competition_id == ^competition_id,
-        order_by: [desc: r.inserted_at]
-      )
-    )
   end
 
   defp get_current_problem(problems) do
@@ -107,8 +97,8 @@ defmodule Climbcomp.Results do
         result
 
       nil ->
+        # build dummy problemdata for when the competition is over
         build_problem_json()
-        # Loads problem for when the competition is over
     end
   end
 
@@ -155,17 +145,14 @@ defmodule Climbcomp.Results do
     end
   end
 
-  defp who_is_next_competitor(competitors, last_result) do
-    last_competitor = Map.get(last_result, :competitor)
-
-    index_of_last_competitor =
-      Enum.find_index(competitors, fn comp -> comp == last_competitor end)
-
-    if index_of_last_competitor == length(competitors) - 1 do
-      List.first(competitors)
-    else
-      Enum.at(competitors, index_of_last_competitor + 1)
-    end
+  defp who_is_next_competitor(competitors, results) do
+    competitors
+    |> Enum.map(&count_competitor_score(&1, results))
+    |> Enum.sort_by(& &1.attempts, :asc)
+    |> Enum.sort_by(& &1.score, :desc)
+    |> Enum.sort_by(& &1.problems, :asc)
+    |> Enum.map(& &1.competitor)
+    |> List.first()
   end
 
   defp build_problem_json(problem) do

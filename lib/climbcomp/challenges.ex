@@ -23,4 +23,14 @@ defmodule Climbcomp.Challenges do
     |> Repo.all()
     |> Repo.preload(:problems)
   end
+
+  def get_challenge!(challange_id, options \\ []) do
+    Challenge
+    |> Repo.get!(challange_id)
+    |> Repo.preload(Keyword.get(options, :preload, []))
+  end
+
+  def delete_challange(%Challenge{} = challenge) do
+    Repo.delete(challenge)
+  end
 end

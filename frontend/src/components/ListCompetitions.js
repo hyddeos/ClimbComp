@@ -16,12 +16,10 @@ const deleteItem = (id) => {
       if (!response.ok) {
         throw new Error("Failed to delete item");
       }
-      // Handle success, e.g., update your UI or state
       document.location.reload();
     })
     .catch((error) => {
       console.error("Error deleting item:", error);
-      // Handle the error, e.g., display an error message
     });
 };
 
@@ -43,10 +41,13 @@ function ListCompetitions(props) {
               className="flex w-full my-4 py-2 pr-2 mr-2 hover:bg-primary-200 border-l-4 border-accent-200 bg-primary-100 drop-shadow rounded-r-lg justify-between"
               onClick={() => navigate(`/competition/?id=${competition.id}`)}
             >
-              <div key={index} className="w-1/2 text-light px-2 font-semibold">
-                {competition.name}({competition.id})
+              <div
+                key={index}
+                className="text-light px-2 font-semibold whitespace-nowrap overflow-hidden"
+              >
+                {competition.name}
               </div>
-              <div className="w-1/4 text-light text-right px-3">
+              <div className=" text-light text-right px-3">
                 <div className="text-right">
                   {competition.competitors.length}
                 </div>

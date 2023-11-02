@@ -119,7 +119,7 @@ function CreateNewChallenge() {
       <div className="bg-bg-200 rounded-lg mt-4 p-2 px-4">
         <div className=" grid grid-cols-2">
           <h3 className="text-text-100 font-bold text-header px-2 cols-span-1">
-            Add Competitor
+            Add Challenge
           </h3>
           <div className="flex justify-end items-center px-2">
             <MdQuiz size={24} className="text-text-200" />

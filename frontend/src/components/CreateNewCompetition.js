@@ -4,7 +4,7 @@ import { MdGroups } from "react-icons/md";
 
 function CreateNewCompetition(props) {
   const [competitionName, setCompetitionName] = React.useState("");
-  const [competitionChallenge, setCompetitionChallenge] = React.useState(0);
+  const [competitionChallenge, setCompetitionChallenge] = React.useState(null);
   const [competitorsData, setcompetitorsData] = React.useState([]);
   const [newCompetitor, setNewCompetitor] = React.useState({
     name: ``,
@@ -105,6 +105,7 @@ function CreateNewCompetition(props) {
                 onChange={(e) => setCompetitionChallenge(e.target.value)}
                 required
               >
+                <option>--Select a challenge--</option>
                 {props.challenges.map((challenge, index) => (
                   <option value={challenge.id}>{challenge.name}</option>
                 ))}

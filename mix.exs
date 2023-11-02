@@ -51,7 +51,8 @@ defmodule Climbcomp.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:cors_plug, "~> 3.0"}
+      {:cors_plug, "~> 3.0"},
+      {:ex_heroicons, "~> 2.0.0"}
     ]
   end
 

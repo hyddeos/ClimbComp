@@ -62,4 +62,19 @@ defmodule ClimbcompWeb.ChallengeController do
       toppoints: problem.toppoints
     }
   end
+
+  def delete(conn, %{"id" => id}) do
+    challenge = Challenges.get_challenge!(id)
+
+    case Challenges.delete_challange(challenge) do
+      {:ok, _deleted_compeition} ->
+        # Return a 204 No Content status
+        send_resp(conn, :no_content, "")
+
+      {:error, _reason} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> render("error.json", error: "Failed to delete challenge")
+    end
+  end
 end

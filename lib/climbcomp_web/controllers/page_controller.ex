@@ -4,10 +4,13 @@ defmodule ClimbcompWeb.PageController do
   alias Climbcomp.Competitions
 
   def home(conn, _params) do
-    compeitions = Competitions.list_competitions()
-    # The home page is often custom made,
-    # so skip the default app layout.
-    render(conn, :home, compeitions: compeitions)
+    competitions_live = Competitions.list_live_competitions()
+    competitions_completed = Competitions.list_completed_competitions()
+
+    render(conn, :home,
+      competitions_live: competitions_live,
+      competitions_completed: competitions_completed
+    )
   end
 
   def show(conn, %{"id" => competion_id}) do

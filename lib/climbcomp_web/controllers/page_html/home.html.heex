@@ -1,9 +1,18 @@
 <.flash_group flash={@flash} />
 
-<div class="flex flex-col gap-4">
-  <%= for compeition <- @compeitions do %>
-    <.link href={~p"/#{compeition.id}"} class="font-semibold text-2xl">
-      <%= compeition.name %>
-    </.link>
-  <% end %>
+<div class="bg-bg-200 drop-shadow rounded-lg mt-2 p-2 px-4 border">
+  <div class="flex  mt-1 w-full justify-between">
+    <p class="text-light font-semibold my-2">Live Competitions</p>
+    <%= Heroicons.icon("users",
+      type: "solid",
+      class: "mt-2 h-5 w-5 text-text-100 text-right"
+    ) %>
+  </div>
+  <div class="flex flex-col gap-4">
+    <%= for competition <- @competitions_live do %>
+      <.link href={~p"/#{competition.id}"} class="font-semibold text-2xl">
+        <%= competition.name %>
+      </.link>
+    <% end %>
+  </div>
 </div>
