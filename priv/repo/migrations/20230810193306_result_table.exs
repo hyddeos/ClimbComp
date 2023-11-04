@@ -3,14 +3,13 @@ defmodule Climbcomp.Repo.Migrations.ResultTable do
 
   def change do
     create table(:result) do
+      add :attemps, :integer
+      add :challenge_id, references(:challenges)
+      add :competition_id, references(:competition, on_delete: :delete_all)
       add :competitor, :string
       add :points, :float
-      add :time, :integer
-      add :attemps, :integer
-
-      add :competition_id, references(:competition, on_delete: :delete_all)
-      add :challenge_id, references(:challenges)
       add :problem_id, references(:problems)
+      add :time, :integer
 
       timestamps()
     end
