@@ -53,8 +53,6 @@ function CreateNewCompetition(props) {
       competitors,
     };
 
-    console.log("Sending", { competition: competitionData });
-
     try {
       const authToken = localStorage.getItem("authToken");
       const response = await fetch(`${API_URL}/api/competition`, {

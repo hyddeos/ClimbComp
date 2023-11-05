@@ -16,45 +16,45 @@ defmodule Climbcomp.Results do
 
   def load_competition(competition_id) do
     # Called when a GET request is called from the Competition by ID
-    compeition =
-      Competitions.get_compeition!(competition_id,
+    competition =
+      Competitions.get_competition!(competition_id,
         preload: [:result, challenge: :problems]
       )
 
-    case compeition.result do
+    case competition.result do
       # Start the competition if no results if found
       [] ->
-        problem_data = get_current_problem(compeition.challenge.problems)
+        problem_data = get_current_problem(competition.challenge.problems)
 
         results = %{
-          completed: compeition.completed,
-          competition_title: compeition.name,
+          completed: competition.completed,
+          competition_title: competition.name,
           competition_id: competition_id,
-          challenge_id: compeition.challenge_id,
-          competitor: List.first(compeition.competitors),
+          challenge_id: competition.challenge_id,
+          competitor: List.first(competition.competitors),
           problem_nr: 1,
           problem_data: problem_data,
-          total_problems: length(compeition.challenge.problems),
-          scoreboard: get_scoreboard(compeition.competitors, compeition.result)
+          total_problems: length(competition.challenge.problems),
+          scoreboard: get_scoreboard(competition.competitors, competition.result)
         }
 
         {:ok, results}
 
       # Load data from an already started competition
       _ ->
-        problem_nr = div(length(compeition.result), length(compeition.competitors)) + 1
-        problem_data = get_current_problem(compeition.challenge.problems, problem_nr)
+        problem_nr = div(length(competition.result), length(competition.competitors)) + 1
+        problem_data = get_current_problem(competition.challenge.problems, problem_nr)
 
         results = %{
-          completed: compeition.completed,
-          competition_title: compeition.name,
-          competition_id: compeition.id,
-          challenge_id: compeition.challenge_id,
-          competitor: who_is_next_competitor(compeition.competitors, compeition.result),
+          completed: competition.completed,
+          competition_title: competition.name,
+          competition_id: competition.id,
+          challenge_id: competition.challenge_id,
+          competitor: who_is_next_competitor(competition.competitors, competition.result),
           problem_nr: problem_nr,
           problem_data: problem_data,
-          total_problems: length(compeition.challenge.problems),
-          scoreboard: get_scoreboard(compeition.competitors, compeition.result)
+          total_problems: length(competition.challenge.problems),
+          scoreboard: get_scoreboard(competition.competitors, competition.result)
         }
 
         {:ok, results}
@@ -62,24 +62,46 @@ defmodule Climbcomp.Results do
   end
 
   def get_next_competitor_data(result_params) do
-    compeition =
-      Competitions.get_compeition!(result_params["competition_id"],
+    competition =
+      Competitions.get_competition!(result_params["competition_id"],
         preload: [:result, challenge: :problems]
       )
 
-    problem_nr = div(length(compeition.result), length(compeition.competitors)) + 1
-    problem_data = get_current_problem(compeition.challenge.problems, problem_nr)
+    problem_nr = div(length(competition.result), length(competition.competitors)) + 1
+    problem_data = get_current_problem(competition.challenge.problems, problem_nr)
 
     %{
-      completed: compeition.completed,
-      competition_title: compeition.name,
-      competition_id: compeition.id,
-      challenge_id: compeition.challenge_id,
-      competitor: who_is_next_competitor(compeition.competitors, compeition.result),
+      completed: competition.completed,
+      competition_title: competition.name,
+      competition_id: competition.id,
+      challenge_id: competition.challenge_id,
+      competitor: "Completed",
+      problem_nr: 0,
+      problem_data: problem_data,
+      total_problems: length(competition.challenge.problems),
+      scoreboard: get_scoreboard(competition.competitors, competition.result)
+    }
+  end
+
+  def get_competition_completed_data(result_params) do
+    competition =
+      Competitions.get_competition!(result_params["competition_id"],
+        preload: [:result, challenge: :problems]
+      )
+
+    problem_nr = div(length(competition.result), length(competition.competitors)) + 1
+    problem_data = get_current_problem(competition.challenge.problems, problem_nr)
+
+    %{
+      completed: competition.completed,
+      competition_title: competition.name,
+      competition_id: competition.id,
+      challenge_id: competition.challenge_id,
+      competitor: who_is_next_competitor(competition.competitors, competition.result),
       problem_nr: problem_nr,
       problem_data: problem_data,
-      total_problems: length(compeition.challenge.problems),
-      scoreboard: get_scoreboard(compeition.competitors, compeition.result)
+      total_problems: length(competition.challenge.problems),
+      scoreboard: get_scoreboard(competition.competitors, competition.result)
     }
   end
 

@@ -1,6 +1,7 @@
 defmodule Climbcomp.Competitions do
   import Ecto.Query
 
+  require Logger
   alias Climbcomp.Competition
   alias Climbcomp.Repo
 
@@ -11,35 +12,43 @@ defmodule Climbcomp.Competitions do
   end
 
   def list_competitions do
-    Competition
-    |> Repo.all()
+    competitions =
+      Competition
+      |> Repo.all()
+
+    Enum.reverse(competitions)
   end
 
   def list_live_competitions do
-    from(c in Competition, where: c.completed == false)
-    |> Repo.all()
+    competitions =
+      from(c in Competition, where: c.completed == false)
+      |> Repo.all()
+
+    Enum.reverse(competitions)
   end
 
   def list_completed_competitions do
-    from(c in Competition, where: c.completed == true)
-    |> Repo.all()
+    competitions =
+      from(c in Competition, where: c.completed == true)
+      |> Repo.all()
+
+    Enum.reverse(competitions)
   end
 
   def set_competition_as_completed(competition_id) do
-    competition = Repo.get(Competition, competition_id)
-    Ecto.Changeset.change(competition, completed: true)
+    Repo.get(Competition, competition_id)
+    |> Ecto.Changeset.change(%{completed: true})
+    |> Repo.update()
   end
 
   def check_completed_status(competition_id) do
     competition = Repo.get(Competition, competition_id)
-
     competition.completed
   end
 
   def get_challenge_id_for_competition(competition_id) do
-    compeition = Repo.get(Competition, competition_id)
-
-    compeition.challenge_id
+    competition = Repo.get(Competition, competition_id)
+    competition.challenge_id
   end
 
   def get_competition_title(competition_id) do
@@ -66,9 +75,9 @@ defmodule Climbcomp.Competitions do
     end
   end
 
-  def get_compeition!(compeition_id, options \\ []) do
+  def get_competition!(competition_id, options \\ []) do
     Competition
-    |> Repo.get!(compeition_id)
+    |> Repo.get!(competition_id)
     |> Repo.preload(Keyword.get(options, :preload, []))
   end
 

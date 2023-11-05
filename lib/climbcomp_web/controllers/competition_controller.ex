@@ -24,10 +24,10 @@ defmodule ClimbcompWeb.CompetitionController do
   end
 
   def delete(conn, %{"id" => id}) do
-    compeition = Competitions.get_compeition!(id)
+    competition = Competitions.get_competition!(id)
 
-    case Competitions.delete_competition(compeition) do
-      {:ok, _deleted_compeition} ->
+    case Competitions.delete_competition(competition) do
+      {:ok, _deleted_competition} ->
         # Return a 204 No Content status
         send_resp(conn, :no_content, "")
 
@@ -51,7 +51,8 @@ defmodule ClimbcompWeb.CompetitionController do
       name: competition.name,
       id: competition.id,
       challenge_id: competition.challenge_id,
-      competitors: competition.competitors
+      competitors: competition.competitors,
+      completed: competition.completed
     }
   end
 

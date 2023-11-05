@@ -10,7 +10,7 @@ import PageTitle from "../components/PageTitle";
 function HostMode() {
   const [challenges, setChallenges] = useState(null);
   const [competitions, setCompetitions] = useState(null);
-  const [userToken, setUserToken] = React.useState(false);
+  const [userToken, setUserToken] = useState(false);
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
@@ -62,7 +62,6 @@ function HostMode() {
           >
             <MdLogout size={24} className="text-text-100" />
           </button>
-
           <Competitions
             competitions={competitions}
             challenges={challenges}

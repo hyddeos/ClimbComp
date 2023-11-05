@@ -19,9 +19,12 @@ defmodule Climbcomp.Challenges do
   end
 
   def list_challanges do
-    Climbcomp.Challenge
-    |> Repo.all()
-    |> Repo.preload(:problems)
+    challenges =
+      Challenge
+      |> Repo.all()
+      |> Repo.preload(:problems)
+
+    Enum.reverse(challenges)
   end
 
   def get_challenge!(challange_id, options \\ []) do

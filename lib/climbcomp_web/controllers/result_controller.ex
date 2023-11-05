@@ -9,8 +9,11 @@ defmodule ClimbcompWeb.ResultController do
   def index(conn, %{"id" => id}) do
     results =
       case Results.load_competition(id) do
-        {:ok, results} -> results
-        results -> results
+        {:ok, results} ->
+          results
+
+        results ->
+          results
       end
 
     conn
@@ -21,11 +24,14 @@ defmodule ClimbcompWeb.ResultController do
   def create(conn, %{"result" => result_params}) do
     case Results.save_result(result_params) do
       {:ok, %Result{} = _result} ->
-        case result_params["last_result"] do
+        case result_params["completed"] do
           true ->
             Competitions.set_competition_as_completed(result_params["competition_id"])
+            completed_data = Results.get_competition_completed_data(result_params)
 
-            send_resp(conn, :no_content, "")
+            conn
+            |> put_status(:created)
+            |> json(completed_data)
 
           false ->
             next_competitor_data = Results.get_next_competitor_data(result_params)

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { API_URL } from "../constants";
 
 function SubmitResults(props) {
-  console.log("results", props);
-
   const [editedAttempts, setEditedAttempts] = useState(props.attempts);
   const [editedPoints, setEditedPoints] = useState(0);
   const calculatedTime = props.problemData.timelimit * 100 - props.time;
@@ -39,7 +37,6 @@ function SubmitResults(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("What LastResult is:,", lastResult());
 
     const result = {
       competitor: props.competitor,
@@ -49,7 +46,7 @@ function SubmitResults(props) {
       points: editedPoints,
       time: editedTime,
       attempts: editedAttempts,
-      last_result: lastResult(),
+      completed: lastResult(),
     };
 
     try {
@@ -64,12 +61,11 @@ function SubmitResults(props) {
       });
 
       if (response.ok && lastResult()) {
-        console.log("COMPEITION OVER!!11");
-        // COMPETITION OVER FUNKTION
-        return;
-      }
+        props.showSubmitMenu(false);
+        props.onUpdateData();
 
-      if (response.ok) {
+        return;
+      } else if (response.ok) {
         props.onUpdateData();
         props.showSubmitMenu(false);
       }

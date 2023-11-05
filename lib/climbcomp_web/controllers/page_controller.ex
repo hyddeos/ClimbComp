@@ -13,9 +13,9 @@ defmodule ClimbcompWeb.PageController do
     )
   end
 
-  def show(conn, %{"id" => competion_id}) do
-    compeition = Competitions.get_compeition!(competion_id)
+  def show(conn, %{"id" => competition_id}) do
+    competition = Competitions.get_competition!(competition_id)
 
-    render(conn, :show, compeition: compeition)
+    render(conn, :show, competition: competition)
   end
 end

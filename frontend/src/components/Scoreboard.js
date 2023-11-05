@@ -31,9 +31,9 @@ function Scoreboard(props) {
             <tr>
               <th className="text-left">Rank</th>
               <th className="text-left">Competitor</th>
-              <th className="text-right">Probs</th>
-              <th className="text-right">Trys</th>
-              <th className="text-right">Score</th>
+              <th className="text-left">Probs</th>
+              <th className="text-left">Trys</th>
+              <th className="text-left">Score</th>
             </tr>
           </thead>
           <tbody>
@@ -41,9 +41,9 @@ function Scoreboard(props) {
               <tr key={index} className="text-left">
                 <td className="text-left pl-4">{index + 1}</td>
                 <td>{item.competitor}</td>
-                <td className="text-center pr-6">{item.problems}</td>
-                <td className="text-center pr-6">{item.attempts}</td>
-                <td className="text-center pr-4">{item.score}</td>
+                <td className="text-left pr-6">{item.problems}</td>
+                <td className="text-left pr-6">{item.attempts}</td>
+                <td className="text-left pr-4">{item.score}</td>
               </tr>
             ))}
           </tbody>
