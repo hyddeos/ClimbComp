@@ -1,5 +1,67 @@
-<%= @competition.name %> Vinnare : mest poäng
+<div class="my-4">
+  <h1 class="text-3xl capitalize text-accent-200 font-bold"><%= @competition.name %></h1>
+</div>
 
-Minst försökt
-
-Snabbast
+<div class="bg-bg-200 drop-shadow rounded-lg mt-4 p-2 px-4">
+  <h3 class="text-2xl font-semibold">Scoreboard</h3>
+  <div class="grid grid-cols-6 gap-2 mt-4">
+    <p>
+      <%= Heroicons.icon("trophy",
+        type: "solid",
+        class: "mt-2 h-5 w-5 text-text-100 text-right"
+      ) %> Rank
+    </p>
+    <p>
+      <%= Heroicons.icon("user",
+        type: "solid",
+        class: "mt-2 h-5 w-5 text-text-100 text-right"
+      ) %> Competitor
+    </p>
+    <p>
+      <%= Heroicons.icon("chart-bar",
+        type: "solid",
+        class: "mt-2 h-5 w-5 text-text-100 text-right"
+      ) %> Points
+    </p>
+    <p>
+      <%= Heroicons.icon("arrow-path",
+        type: "solid",
+        class: "mt-2 h-5 w-5 text-text-100 text-right"
+      ) %> Attempts
+    </p>
+    <p>
+      <%= Heroicons.icon("clock",
+        type: "solid",
+        class: "mt-2 h-5 w-5 text-text-100 text-right"
+      ) %> Time
+    </p>
+    <p>
+      <%= Heroicons.icon("question-mark-circle",
+        type: "solid",
+        class: "mt-2 h-5 w-5 text-text-100 text-right"
+      ) %> Problems
+    </p>
+  </div>
+  <%= for competitor <- @scoreboard.competitors_scores do %>
+    <div class="grid grid-cols-6 mt-4">
+      <p>
+        rank
+      </p>
+      <p>
+        <%= competitor.competitor %>
+      </p>
+      <p>
+        <%= competitor.score %>
+      </p>
+      <p>
+        <%= competitor.attempts %>
+      </p>
+      <p>
+        <%= competitor.time %>
+      </p>
+      <p>
+        <%= competitor.problems %>
+      </p>
+    </div>
+  <% end %>
+</div>

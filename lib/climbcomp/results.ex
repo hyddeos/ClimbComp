@@ -105,6 +105,10 @@ defmodule Climbcomp.Results do
     }
   end
 
+  def get_sorted_scoreboard(competition) do
+    scores = get_scoreboard(competition.competitors, competition.result)
+  end
+
   defp get_current_problem(problems) do
     # when there is no previous results
     List.last(problems)
@@ -146,7 +150,7 @@ defmodule Climbcomp.Results do
           end)
 
         score =
-          Enum.reduce(results, 0.0, fn result, accumulator ->
+          Enum.reduce(results, 0, fn result, accumulator ->
             if result.competitor == competitor do
               accumulator + result.points
             else
@@ -155,7 +159,7 @@ defmodule Climbcomp.Results do
           end)
 
         attempts =
-          Enum.reduce(results, 0.0, fn result, accumulator ->
+          Enum.reduce(results, 0, fn result, accumulator ->
             if result.competitor == competitor do
               accumulator + result.attempts
             else
@@ -163,7 +167,22 @@ defmodule Climbcomp.Results do
             end
           end)
 
-        %{competitor: competitor, score: score, attempts: attempts, problems: problems_done}
+        time =
+          Enum.reduce(results, 0, fn result, accumulator ->
+            if result.competitor == competitor do
+              accumulator + result.time
+            else
+              accumulator
+            end
+          end)
+
+        %{
+          competitor: competitor,
+          score: score,
+          attempts: attempts,
+          problems: problems_done,
+          time: time
+        }
     end
   end
 
