@@ -135,7 +135,11 @@ defmodule Climbcomp.Results do
   end
 
   defp get_competitors_scores(competitors, results) do
-    Enum.map(competitors, fn competitor -> count_competitor_score(competitor, results) end)
+    competitors
+    |> Enum.map(&count_competitor_score(&1, results))
+    |> Enum.sort_by(& &1.attempts, :asc)
+    |> Enum.sort_by(& &1.score, :desc)
+    |> Enum.sort_by(& &1.problems, :asc)
   end
 
   defp count_competitor_score(competitor, results) do
@@ -178,7 +182,7 @@ defmodule Climbcomp.Results do
 
         %{
           competitor: competitor,
-          score: score,
+          score: round(score),
           attempts: attempts,
           problems: problems_done,
           time: time

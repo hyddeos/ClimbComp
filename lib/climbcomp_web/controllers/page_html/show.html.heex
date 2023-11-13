@@ -4,62 +4,62 @@
 
 <div class="bg-bg-200 drop-shadow rounded-lg mt-4 p-2 px-4">
   <h3 class="text-2xl font-semibold">Scoreboard</h3>
-  <div class="grid grid-cols-6 gap-2 mt-4">
+  <div class="grid grid-cols-7 gap-2 mt-4">
     <p>
       <%= Heroicons.icon("trophy",
         type: "solid",
         class: "mt-2 h-5 w-5 text-text-100 text-right"
-      ) %> Rank
+      ) %> <span class="hidden md:inline">Rank</span>
     </p>
-    <p>
+    <p class="col-span-2 ">
       <%= Heroicons.icon("user",
         type: "solid",
         class: "mt-2 h-5 w-5 text-text-100 text-right"
-      ) %> Competitor
+      ) %> <span class="hidden md:inline">Competitor</span>
     </p>
     <p>
       <%= Heroicons.icon("chart-bar",
         type: "solid",
         class: "mt-2 h-5 w-5 text-text-100 text-right"
-      ) %> Points
+      ) %> <span class="hidden md:inline">Points</span>
     </p>
     <p>
       <%= Heroicons.icon("arrow-path",
         type: "solid",
         class: "mt-2 h-5 w-5 text-text-100 text-right"
-      ) %> Attempts
+      ) %> <span class="hidden md:inline">Attempts</span>
     </p>
     <p>
       <%= Heroicons.icon("clock",
         type: "solid",
         class: "mt-2 h-5 w-5 text-text-100 text-right"
-      ) %> Time
+      ) %> <span class="hidden md:inline">Time</span>
     </p>
     <p>
       <%= Heroicons.icon("question-mark-circle",
         type: "solid",
         class: "mt-2 h-5 w-5 text-text-100 text-right"
-      ) %> Problems
+      ) %> <span class="hidden md:inline">Problems</span>
     </p>
   </div>
-  <%= for competitor <- @scoreboard.competitors_scores do %>
-    <div class="grid grid-cols-6 mt-4">
-      <p>
-        rank
+  <%= for {competitor, rank} <- Enum.with_index(@scoreboard.competitors_scores) do %>
+    <div class="grid grid-cols-7 gap-2 mt-4">
+      <p class="cols-span-1">
+        <%= rank + 1 %>
       </p>
-      <p>
+      <p class="col-span-2 overflow-hidden">
         <%= competitor.competitor %>
       </p>
-      <p>
+      <p class="cols-span-1">
         <%= competitor.score %>
       </p>
-      <p>
+      <p class="cols-span-1 pl-1">
         <%= competitor.attempts %>
       </p>
-      <p>
+      <p class="cols-span-1">
         <%= competitor.time %>
       </p>
-      <p>
+      <p class="cols-span-1 pl-2">
         <%= competitor.problems %>
       </p>
     </div>

@@ -1,6 +1,7 @@
 defmodule ClimbcompWeb.PageController do
   use ClimbcompWeb, :controller
 
+  require Logger
   alias Climbcomp.Competitions
   alias Climbcomp.Results
 
