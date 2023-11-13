@@ -145,7 +145,7 @@ defmodule Climbcomp.Results do
   defp count_competitor_score(competitor, results) do
     case results do
       [] ->
-        %{competitor: competitor, score: 0, problems: 0, attempts: 0}
+        %{competitor: competitor, score: 0, problems: 0, attempts: 0, time: 0}
 
       _ ->
         problems_done =
