@@ -4,9 +4,11 @@ import { API_URL } from "../constants";
 function SubmitResults(props) {
   const [editedAttempts, setEditedAttempts] = useState(props.attempts);
   const [editedPoints, setEditedPoints] = useState(0);
-  const calculatedTime = props.problemData.timelimit * 100 - props.time;
+  const calculatedTime =
+    props.problemData.timelimit - Math.floor(props.time / 100);
+
   const [editedTime, setEditedTime] = useState(
-    calculatedTime === 0 ? props.problemData.timelimit * 100 : calculatedTime
+    calculatedTime === 0 ? props.problemData.timelimit : calculatedTime
   );
 
   const lastResult = (e) => {
@@ -108,7 +110,7 @@ function SubmitResults(props) {
             />
           </label>
           <label className="text-light font-semibold w-full flex justify-between my-6">
-            Time(ms)
+            Time(sec)
             <input
               className="rounded-lg pl-2 w-2/3"
               type="number"
