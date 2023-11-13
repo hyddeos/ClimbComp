@@ -1,4 +1,4 @@
-<header class="lg:px-8 absolute w-full bg-primary-100 drop-shadow-sm">
+<header class="lg:px-8 w-full bg-primary-100 drop-shadow-sm">
   <div class="absolute top-0 left-0 z-0">
     <a href="/">
       <img src={~p"/images/climber2.svg"} width="50" />
@@ -18,12 +18,14 @@
     </div>
   </div>
 </header>
-<main class="px-4 py-20 sm:px-6 lg:px-8 min-h-screen">
+
+<main class="px-4 py-20 sm:px-6 lg:px-8 flex-1">
   <div class="mx-auto max-w-2xl">
     <%= @inner_content %>
   </div>
 </main>
-<footer class="absolute bottom-0 bg-primary-100 h-8 w-full text-center border-t border-accent-100">
+
+<footer class="bg-primary-100 h-8 w-full text-center border-t border-accent-100">
   <div class="font-semibold text-text-200 mt-1">
     Made by <a class="text-accent-200" href="https://eshtropy.se">Esh</a>
     | <a class="text-accent-200" href="https://github.com/hyddeos/ClimbComp">Github</a>
