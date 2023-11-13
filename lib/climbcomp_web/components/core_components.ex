@@ -588,6 +588,55 @@ defmodule ClimbcompWeb.CoreComponents do
     """
   end
 
+  attr :position, :atom, values: [:right, :left, :bottom, :top], default: :top
+
+  slot(:trigger, required: true)
+
+  slot(:content, required: true) do
+    attr :class, :string
+  end
+
+  def tooltip(assigns) do
+    assigns = assign(assigns, :id, Ecto.UUID.generate())
+
+    ~H"""
+    <span
+      class="relative overflow-hidden cursor-pointer group hover:overflow-visible focus-visible:outline-none"
+      aria-describedby={@id}
+    >
+      <%= render_slot(@trigger) %>
+      <span
+        :for={content <- @content}
+        role="tooltip"
+        id={@id}
+        class={[
+          "invisible absolute z-10 w-48 rounded bg-slate-700 p-4 text-sm text-white opacity-0 transition-all before:invisible before:absolute before:z-10 before:opacity-0 before:transition-all before:content-[''] group-hover:visible group-hover:block group-hover:opacity-100 group-hover:before:visible group-hover:before:opacity-100",
+          tooltip_position_classes(@position),
+          content[:class]
+        ]}
+      >
+        <%= render_slot(content) %>
+      </span>
+    </span>
+    """
+  end
+
+  defp tooltip_position_classes(:top) do
+    "bottom-full left-1/2 mb-2 -translate-x-1/2 before:left-1/2 before:top-full before:mb-2 before:-ml-2 before:border-x-8 before:border-t-8 before:border-x-transparent before:border-t-slate-700"
+  end
+
+  defp tooltip_position_classes(:right) do
+    "left-full top-1/2 ml-2 -translate-y-1/2 before:top-1/2 before:right-full before:ml-2 before:-mt-2 before:border-y-8 before:border-r-8 before:border-y-transparent before:border-r-slate-700"
+  end
+
+  defp tooltip_position_classes(:bottom) do
+    "top-full left-1/2 mt-2 -translate-x-1/2 before:left-1/2 before:bottom-full before:mt-2 before:-ml-2 before:border-x-8 before:border-b-8 before:border-x-transparent before:border-b-slate-700"
+  end
+
+  defp tooltip_position_classes(:left) do
+    "right-full top-1/2 mr-2 -translate-y-1/2 before:top-1/2 before:left-full before:mr-2 before:-mt-2 before:border-y-8 before:border-l-8 before:border-y-transparent before:border-l-slate-700"
+  end
+
   ## JS Commands
 
   def show(js \\ %JS{}, selector) do
