@@ -111,7 +111,7 @@ defmodule Climbcomp.Results do
 
   defp get_current_problem(problems) do
     # when there is no previous results
-    List.last(problems)
+    List.first(problems)
     |> build_problem_json()
   end
 
