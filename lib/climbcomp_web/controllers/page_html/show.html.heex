@@ -69,16 +69,21 @@
 <%= for {problem, index} <- Enum.with_index(@competition.challenge.problems, 1) do %>
   <div class="bg-bg-200 drop-shadow rounded-lg mt-4 p-2 px-4">
     <header class="flex flex-row justify-between">
-      <h3 class="text-2xl font-semibold"><%= "Problem ##{index} - #{problem.name}" %></h3>
+      <h3 class="text-2xl font-semibold overflow-hidden">
+        <%= "Problem #{index} - #{problem.name}" %>
+      </h3>
       <div class="flex items-center gap-1">
-        <p><%= problem.grade %></p>
+        <p>Grade:<span class="font-semibold"> <%= problem.grade %></span></p>
         <.tooltip position={:top}>
           <:trigger>
-            <.icon name="hero-question-mark-circle-solid" class="text-yellow-600" />
+            <.icon name="hero-question-mark-circle-solid" class="text-accent-100 w-8 h-8" />
           </:trigger>
 
           <:content>
-            hej hej hemskt mycket hej
+            Toppoints: <span class="font-semibold"><%= problem.toppoints %></span>
+            <br /> Zonepoints: <span class="font-semibold"><%= problem.zonepoints %></span>
+            <br /> Timelimit: <span class="font-semibold"><%= problem.timelimit %></span>
+            sec <br /> Position: <span class="font-semibold"><%= problem.position %></span>
           </:content>
         </.tooltip>
       </div>
@@ -113,7 +118,7 @@
         <%= Heroicons.icon("question-mark-circle",
           type: "solid",
           class: "mt-2 h-5 w-5 text-text-100 text-right"
-        ) %> <span class="hidden md:inline">Completed?</span>
+        ) %> <span class="hidden md:inline">Topped?</span>
       </p>
     </div>
 
