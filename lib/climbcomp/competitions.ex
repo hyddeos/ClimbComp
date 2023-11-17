@@ -5,6 +5,16 @@ defmodule Climbcomp.Competitions do
   alias Climbcomp.Competition
   alias Climbcomp.Repo
 
+  def subscribe(%Competition{} = competition) do
+    Phoenix.PubSub.subscribe(Climbcomp.PubSub, topic(competition))
+  end
+
+  def broadcast(%Competition{} = competition, event) do
+    Phoenix.PubSub.broadcast(Climbcomp.PubSub, topic(competition), event)
+  end
+
+  defp topic(%Competition{id: competition_id}), do: "competition:#{competition_id}"
+
   def create_competition(params) do
     %Competition{}
     |> Competition.changeset(params)

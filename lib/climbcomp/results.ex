@@ -1,12 +1,9 @@
 defmodule Climbcomp.Results do
-  import Ecto.Query
   require Logger
 
-  alias Climbcomp.Competition
   alias Climbcomp.Competitions
   alias Climbcomp.Result
   alias Climbcomp.Repo
-  alias Climbcomp.Problems
 
   def save_result(params) do
     %Result{}

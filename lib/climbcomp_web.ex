@@ -52,7 +52,8 @@ defmodule ClimbcompWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {ClimbcompWeb.Layouts, :app}
+        layout: {ClimbcompWeb.Layouts, :app},
+        container: {:div, class: "h-full flex flex-col"}
 
       unquote(html_helpers())
     end

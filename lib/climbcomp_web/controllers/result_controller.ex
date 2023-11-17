@@ -7,14 +7,7 @@ defmodule ClimbcompWeb.ResultController do
   alias Climbcomp.Results
 
   def index(conn, %{"id" => id}) do
-    results =
-      case Results.load_competition(id) do
-        {:ok, results} ->
-          results
-
-        results ->
-          results
-      end
+    {:ok, results} = Results.load_competition(id)
 
     conn
     |> put_status(200)
@@ -23,7 +16,9 @@ defmodule ClimbcompWeb.ResultController do
 
   def create(conn, %{"result" => result_params}) do
     case Results.save_result(result_params) do
-      {:ok, %Result{} = _result} ->
+      {:ok, %Result{} = result} ->
+        :ok = broadcast_result_updated(result)
+
         case result_params["completed"] do
           true ->
             Competitions.set_competition_as_completed(result_params["competition_id"])
@@ -54,5 +49,12 @@ defmodule ClimbcompWeb.ResultController do
         opts |> Keyword.get(String.to_existing_atom(key), key) |> to_string()
       end)
     end)
+  end
+
+  defp broadcast_result_updated(%Result{competition_id: competition_id}) do
+    competition_id
+    |> Competitions.get_competition!()
+    |> Competitions.broadcast(:updated_results)
+    |> IO.inspect(label: "broadcast_result_updated")
   end
 end
