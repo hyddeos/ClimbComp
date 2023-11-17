@@ -9,12 +9,21 @@
     <div class="flex font-bold justify-evenly items-center gap-4 font-2xl leading-6 text-zinc-900 z-10 w-full 
     ">
       <a href="/">ClimbComp</a>
-      <a
-        href="https://host.climbcomp.eshtropy.se"
-        class="rounded-lg bg-zinc-100 px-2 py-1 hover:bg-zinc-200/80"
-      >
-        Host panel <span aria-hidden="true">&rarr;</span>
-      </a>
+      <%= if Application.fetch_env!(:climbcomp, :env) == :prod do %>
+        <a
+          href="https://host.climbcomp.eshtropy.se"
+          class="rounded-lg bg-zinc-100 px-2 py-1 hover:bg-zinc-200/80"
+        >
+          Host panel <span aria-hidden="true">&rarr;</span>
+        </a>
+      <% else %>
+        <a
+          href="http://localhost:3000"
+          class="rounded-lg bg-zinc-100 px-2 py-1 hover:bg-zinc-200/80"
+        >
+          Host panel <span aria-hidden="true">&rarr;</span>
+        </a>
+      <% end %>
     </div>
   </div>
 </header>
