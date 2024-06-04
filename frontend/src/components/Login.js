@@ -39,7 +39,7 @@ function Login(props) {
   };
 
   return (
-    <div className="bg-bg-200 p-6 m-6 rounded-lg relative overflow-hidden z-10">
+    <div className=" p-6 m-6 rounded-lg relative overflow-hidden z-10">
       <img
         className="absolute top-0 right-0 w-60 -mt-1 z-0"
         src={climber3}
